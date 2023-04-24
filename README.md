@@ -2,6 +2,7 @@
 
 Contribuições: 
 Gabriel Carvalhais
-Gustavo
+Arthur Guerra
+Gustavo Sacramento
 Gabriel Castilho
 Vitor Kenji
