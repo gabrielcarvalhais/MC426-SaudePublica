@@ -7,19 +7,19 @@ using System.Security.Claims;
 
 namespace MC426_Backend.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class LoginController : Controller
+    [ApiController]    
+    public class AutenticacaoController : Controller
     {
         private readonly SignInManager<Usuario> _signInManager;
         private readonly UserManager<Usuario> _userManager;
 
-        public LoginController(SignInManager<Usuario> signInManager, UserManager<Usuario> userManager)
+        public AutenticacaoController(SignInManager<Usuario> signInManager, UserManager<Usuario> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
         }
 
+        [Route("[controller]/Login")]
         [HttpPost]
         public async Task<JsonResult> Login(LoginModel userModel)
         {

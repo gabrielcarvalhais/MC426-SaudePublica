@@ -17,6 +17,16 @@ builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<SaudePublicaContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Autenticacao/Login";
+    options.Cookie.Name = "SaudePublicaAuthenticationCookie";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
+    options.LoginPath = "/Autenticacao/Login";
+    options.SlidingExpiration = true;
+});
+
 
 var app = builder.Build();
 
