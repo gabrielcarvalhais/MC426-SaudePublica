@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <div class="login-box">
+      <h2>Login Here</h2>
+      <form>
+        <label>Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username">
+
+        <label>Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+
+        <input type="button" id="btnSearch" value="Login" onclick="validate()">
+      </form>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
