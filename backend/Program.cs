@@ -1,4 +1,8 @@
+using MC426_Backend.ApplicationService.Services;
+using MC426_Backend.Domain.Interfaces.Repositories;
+using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
+using MC426_Backend.Infrastructure.Repositories;
 using MC426_Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +20,14 @@ builder.Services.AddDbContext<SaudePublicaContext>(opts =>
 builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<SaudePublicaContext>()
     .AddDefaultTokenProviders();
+
+// Repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+
+// Services
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+builder.Services.AddScoped<IPacienteService, PacienteService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
