@@ -24,8 +24,8 @@ namespace MC426_Backend.Infrastructure.Configuration
                 new IdentityRole
                 {
                     Id = "93c1d0a4-2a15-4b80-b062-be9bac57c979",
-                    Name = "Profissional",
-                    NormalizedName = "Profissional"
+                    Name = "Funcionário",
+                    NormalizedName = "Funcionário"
                 }
             );
         }
