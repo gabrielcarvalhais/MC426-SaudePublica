@@ -14,9 +14,7 @@ namespace MC426_Backend.Models
 
         [Required(ErrorMessage = "Data de nascimento obrigatória")]
         [Display(Name = "Data de Nascimento")]
-        public DateTime? DataNascimento { get; set; }
-
-        public int Idade { get; set; }
+        public DateTime DataNascimento { get; set; }
 
         [Display(Name = "CPF")]
         public string? Cpf { get; set; }
@@ -38,6 +36,5 @@ namespace MC426_Backend.Models
         [Compare("Password", ErrorMessage = "As senhas não coincidem")]
         public string? ConfirmPassword { get; set; } = "";
 
-        public List<string> Roles { get; set; }
     }
 }

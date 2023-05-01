@@ -5,9 +5,11 @@ using MC426_Backend.Models;
 using MC426_Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace MC426_Backend.Controllers
 {
+    [ApiController]
     public class PacienteController : Controller
     {
         private readonly IPacienteService _pacienteService;
@@ -34,8 +36,9 @@ namespace MC426_Backend.Controllers
             {
                 var paciente = _mapper.Map<PacienteModel, Paciente>(model);
 
-                var usuarioId = InserirUsuario(model);
-                paciente.Chave = Guid.Parse(usuarioId.Result);
+                var usuarioId = await InserirUsuario(model);
+                paciente.Chave = Guid.Parse(usuarioId);
+                paciente.Ativo = true;
 
                 _pacienteService.Insert(paciente);
                 
@@ -52,9 +55,9 @@ namespace MC426_Backend.Controllers
             var usuario = new Usuario()
             {
                 UserName = model.Email,
-                NormalizedUserName = model.Email.ToUpper(),
+                NormalizedUserName = model.Email,
                 Email = model.Email,
-                NormalizedEmail = model.Email.ToUpper()
+                NormalizedEmail = model.Email
             };
 
             var result = await _userManager.CreateAsync(usuario, model.Password);
@@ -69,17 +72,10 @@ namespace MC426_Backend.Controllers
                 throw new Exception($"{ModelState.Values.SelectMany(e => e.Errors).FirstOrDefault()}");
             }
 
-            await AdicionaRolesUsuario(usuario, model.Roles);
+            await _userManager.AddToRoleAsync(usuario, "Paciente");
 
             return usuario.Id;
         }
 
-        private async Task AdicionaRolesUsuario(Usuario usuario, List<string> roles)
-        {
-            foreach (var role in roles)
-            {
-                await _userManager.AddToRoleAsync(usuario, role);                
-            }
-        }
     }
 }

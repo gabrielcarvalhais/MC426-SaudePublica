@@ -5,6 +5,7 @@ using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Infrastructure.Repositories;
 using MC426_Infrastructure.Data;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,9 @@ builder.Services.AddDbContext<SaudePublicaContext>(opts =>
 builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<SaudePublicaContext>()
     .AddDefaultTokenProviders();
+
+//Precisa do package AutoMapper.Extensions.Microsoft.DependencyInjection
+builder.Services.AddAutoMapper(typeof(Program));
 
 // Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
