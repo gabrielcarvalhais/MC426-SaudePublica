@@ -1,4 +1,5 @@
-﻿using MC426_Backend.Infrastructure.Configuration;
+﻿using MC426_Backend.Domain.Entities;
+using MC426_Backend.Infrastructure.Configuration;
 using MC426_Backend.Infrastructure.Identity;
 using MC426_Domain.Entities;
 using MC426_Infrastructure.Configuration;
@@ -51,8 +52,10 @@ namespace MC426_Infrastructure.Data
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioRoleConfiguration());
             modelBuilder.ApplyConfiguration(new PacienteConfiguration());
+            modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
         }
 
-        public DbSet<Paciente> Pacientes { get; set; }
+        public DbSet<Paciente> Paciente { get; set; }
+        public DbSet<Funcionario> Funcionario { get; set; }
     }
 }
