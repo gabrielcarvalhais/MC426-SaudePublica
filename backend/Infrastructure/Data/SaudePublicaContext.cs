@@ -28,8 +28,20 @@ namespace MC426_Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //gabs
-            optionsBuilder.UseSqlServer("server=localhost\\SQLEXPRESS;database=SaudePublica;Trusted_Connection=True;TrustServerCertificate=true");
+            var fileName = "appsettings.json";
+            var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (!string.IsNullOrEmpty(envName))
+            {
+                fileName = $"appsettings.{envName}.json";
+            }
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
+                    .AddJsonFile(fileName, optional: false)
+                    .Build();
+
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("sqlConnection"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
