@@ -1,3 +1,4 @@
+using Castle.Core.Configuration;
 using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Interfaces.Repositories;
 using MC426_Backend.Domain.Interfaces.Services;
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<SaudePublicaContext>(opts =>
-    opts.UseSqlServer("server=localhost\\SQLEXPRESS;database=SaudePublica;Trusted_Connection=True;TrustServerCertificate=true"));
+                opts.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
 
 builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<SaudePublicaContext>()
