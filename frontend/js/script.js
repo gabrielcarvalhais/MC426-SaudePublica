@@ -1,1 +1,0 @@
-// inicializar funcoes globais

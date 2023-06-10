@@ -1,17 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
+<html lang="pt-BR" class="h-100">
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Página inicial</title>
-  </head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <title>Saúde+Barão</title>
+</head>
 
-  <body>
-    <h1>Hello World!</h1>
-    <a href="auth/login.html">Ir para o login</a>
-    <br><br>
-    <a href="auth/cadastro_funcionario.html">Cadastrar funcionário</a>
-    <script src="js/script.js"></script>
-  </body>
+<body class="h-100">
+
+    <div class="container d-flex justify-content-center align-items-center h-100">
+        <div class="card border-info">
+            <div class="card-body">
+                <div class="mb-3 text-center">
+                    <h1 style="text-align: center; font-family: cursive">Saúde<span style="font-weight: bold; color:#0dcaf0">+</span>Barão</h1>
+                    <p class="mt-2" style="color: #888888">Faça seu login ou cadastre-se.</p>
+                </div>
+                <form id="form-login" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail:</label>
+                        <input class="form-control" type="email" id="email" name="email" placeholder="Digite seu e-mail">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Senha:</label>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Digite sua senha" />
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <button class="btn btn-default" id="btnEntrar" role="button">Entrar</button>
+                        <a class="btn btn-default" role="button" href="auth/cadastro.html">Cadastrar usuário</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/login/form.js"></script>
+</body>
 </html>
