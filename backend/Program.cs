@@ -1,14 +1,11 @@
-using Castle.Core.Configuration;
 using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Interfaces.Repositories;
 using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Infrastructure.Repositories;
 using MC426_Infrastructure.Data;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +19,16 @@ builder.Services.AddDbContext<SaudePublicaContext>(opts =>
 builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<SaudePublicaContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequireLowercase = false;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+});
 
 //Precisa do package AutoMapper.Extensions.Microsoft.DependencyInjection
 builder.Services.AddAutoMapper(typeof(Program));
