@@ -1,5 +1,50 @@
+jQuery.validator.addMethod("cpf", function(value, element) {
+    value = jQuery.trim(value);
+    value = value.replace('.','');
+    value = value.replace('.','');
+    cpf = value.replace('-','');
+
+    while(cpf.length < 11) cpf = "0"+ cpf;
+
+    const regexp = /^0+$|^1+$|^2+$|^3+$|^4+$|^5+$|^6+$|^7+$|^8+$|^9+$/;
+    const a = [];
+
+    let b = 0;
+    let c = 11;
+
+    for (let i = 0; i < 11; i++) {
+        a[i] = cpf.charAt(i);
+        if (i < 9) b += (a[i] * --c);
+    }
+
+    if ((x = b % 11) < 2) {
+        a[9] = 0
+    } else {
+        a[9] = 11 - x
+    }
+
+    b = 0;
+    c = 11;
+
+    for (let y = 0; y < 10; y++) b += (a[y] * c--);
+
+    if ((x = b % 11) < 2) {
+        a[10] = 0;
+    } else {
+        a[10] = 11 - x;
+    }
+
+    let ret = true;
+    if ((cpf.charAt(9) != a[9]) || (cpf.charAt(10) != a[10]) || cpf.match(regexp)) ret = false;
+
+    return this.optional(element) || ret;
+
+}, "CPF inválido");
+
 (function (window, document, $, undefined) {
     "use strict";
+
+
     $(function () {
         $("#btnCadastrar").click(function(e){
             btnCadastrar_click(e);
@@ -11,10 +56,12 @@
                     required: true
                 },
                 cpf: {
-                    required: true
+                    required: true,
+                    minlength: 14,
+                    cpf: true
                 },
                 dataNascimento: {
-                    required: true
+                    required: true,
                 },
                 tipoUsuario: {
                     required: true
@@ -24,7 +71,8 @@
                     email: true
                 },
                 password: {
-                    required: true                   
+                    required: true,
+                    minlength: 5
                 },
                 confirmPassword: {
                     required: true,
@@ -33,14 +81,20 @@
             },
             messages: {
                 nome: "Nome obrigatório",
-                cpf: "CPF obrigatório",
+                cpf: {
+                    required: "CPF obrigatório",
+                    minlength: "CPF inválido",
+                },
                 dataNascimento: "Data de nascimento obrigatória",
                 tipoUsuario: "Tipo de usuário obrigatório",
                 email: {
                     required: "E-mail obrigatório",
                     email: "O e-mail informado é inválido"
                 },
-                password: "Senha obrigatória",
+                password: {
+                    required: "Senha obrigatória",
+                    minlength: "A senha deve ter pelo menos 5 caracteres."
+                },
                 confirmPassword: {
                     required: "Confirmação de senha obrigatória",
                     equalTo: "As senhas não coincidem"
@@ -56,10 +110,10 @@
 
 function btnCadastrar_click(e) {
     e.preventDefault();
-    var form = $("#form-cadastro");
+    const form = $("#form-cadastro");
     if (form.valid()) {        
-        var formData = form.serializeArray();
-        var data = {};
+        const formData = form.serializeArray();
+        const data = {};
         formData.forEach(function (input) {
             data[input.name] = input.value;
         });
@@ -74,21 +128,36 @@ function btnCadastrar_click(e) {
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
-            success: function (resposta) {
-                if (resposta != null) {
-                    if (resposta.statusCode == 200) {
-                        alert("Usuário cadastrado com sucesso!");
+            success: function (res) {
+                if (res != null) {
+                    if (res.statusCode == 200) {
+                        $("#toast-cadastro").removeClass('bg-danger');
+                        $("#toast-cadastro").addClass('bg-success');
+                        $("#toast-cadastro .toast-body").text("Usuário cadastrado com sucesso!");
+                        $("#toast-cadastro").toast('show');
+                        
                         setTimeout(function () {
-                            window.location.href = "/Autenticacao/Login";
-                        }, 1000);
+                            window.location.href = "/home/home.html";
+                        }, 2000);
                     }
                     else{
-                        alert("Falha ao tentar cadastrar o usuário!");
+                        $("#toast-cadastro").removeClass('bg-success');
+                        $("#toast-cadastro").addClass('bg-danger');
+                        $("#toast-cadastro .toast-body").text("Falha ao tentar cadastrar o usuário!");
+                        $("#toast-cadastro").toast('show');
+
+                        form.trigger("reset");
                     }
                 }
             },
-            error: function (resposta) {
-                alert("Falha ao tentar cadastrar o usuário!")
+            error: function (res) {
+                console.error(res);
+
+                $("#toast-cadastro").addClass('bg-danger');
+                $("#toast-cadastro .toast-body").text("Falha ao tentar cadastrar o usuário!");
+                $("#toast-cadastro").toast('show');
+
+                form.trigger("reset");
             }
         });
     }

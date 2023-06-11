@@ -1,5 +1,11 @@
 body {
-    background-color: #383838;
+    background-color: #D4E6F1;
+}
+
+.toast {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 .card-body{
