@@ -51,7 +51,7 @@ function btnEntrar_click(e) {
                     } else if (resposta.statusCode == 200) {
                         alert("Usuário autenticado com sucesso!")
                         setTimeout(function () {
-                            window.location.href = "/Home";
+                            window.location.href = "/home.html";
                         }, 1000);
                     }
                 }
