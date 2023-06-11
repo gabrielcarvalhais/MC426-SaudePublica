@@ -1,6 +1,5 @@
 ﻿using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Repositories;
-using MC426_Domain.Entities;
 using MC426_Infrastructure.Data;
 
 namespace MC426_Backend.Infrastructure.Repositories

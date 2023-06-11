@@ -5,12 +5,6 @@ using MC426_Domain.Entities;
 using MC426_Infrastructure.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MC426_Infrastructure.Data
 {
