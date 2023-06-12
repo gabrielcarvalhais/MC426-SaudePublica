@@ -8,6 +8,7 @@
   <link href="../../css/layout.css" rel="stylesheet">
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <link href="../../css/common.css" rel="stylesheet">
+  <link href="../../css/agendamento/index.css" rel="stylesheet">
   <link href="../../assets/fullcalendar/main.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -32,14 +33,106 @@
     </div>    
 
     <div class="main-container">      
-      <main class="h-100">        
-        <div class="col-lg-9">
-          <div class="card">
+      <main class="h-100">
+        <div class="row">
+          <div class="col-lg-2">
+            <div class="card">
               <div class="card-body">
-                  <div id="calendar"></div>
+                <button class="btn btn-default d-flex align-items-center justify-content-center" id="btnNovoAgendamento">
+                    Realizar agendamento
+                </button>
+              </div>  
+            </div> 
+          </div>       
+          <div class="col-lg-10">
+            <div class="card">
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+          </div>
+        </div>        
+
+        <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                  <div class="modal-header" style="border-bottom: 0px;">
+                      <button type="button" id="btnFecharModalArquivo" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body d-flex justify-content-center agendamento-novo" style="padding: 0;">
+                      <div class="row" style="width: 100%;">
+                          <form id="form-agendamento" class="" action="#" style="width: 100%">
+                              <input type="hidden" asp-for="Id" />
+                              <input type="hidden" asp-for="Chave" />
+                              <input type="hidden" asp-for="VinculoId" />
+                              <input type="hidden" asp-for="Excluido" />
+                              <div class="col-12" style="padding-inline: 1rem;">
+                                  <div style="background-color: transparent;">
+                                      <div class="row mb-2">
+                                          <div class="col-md-12 col-xs-12">
+                                              <label class="paragraph-xsmall">Paciente</label>
+                                              <select class="form-select" id="pacienteId" name="pacienteId">
+                                                  <option value="">Selecione o paciente</option>
+                                              </select>
+                                              <span id="PacienteError"></span>
+                                          </div>
+                                      </div> 
+                                      <div class="row mb-2">
+                                          <div class="col-md-12 col-xs-12">
+                                              <label class="paragraph-xsmall">Médico</label>
+                                              <select class="form-select" id="medicoId" name="medicoId">
+                                                  <option value="">Selecione o médico</option>
+                                              </select>
+                                              <span id="MedicoError"></span>
+                                          </div>
+                                      </div>
+                                      <div class="row mb-2">
+                                          <div class="col-md-12 col-xs-12">
+                                              <label class="paragraph-xsmall">Status do agendamento</label>
+                                              <select class="form-select" id="statusAgendamento" name="statusAgendamento">
+                                                  <option value="">Selecione o status</option>
+                                              </select>
+                                          </div>
+                                      </div>                                                                                      
+                                      <div class="row mb-2">
+                                          <div class="col-md-12 col-xs-12">
+                                              <label class="paragraph-xsmall">Data de início</label>
+                                              <input type="date" id="dataInicio" name="dataInicio"class="form-control">
+                                          </div>
+                                      </div>                
+                                      <div class="row mb-2">
+                                          <div class="col-md-6 col-xs-12">
+                                              <label class="paragraph-xsmall">Horário de início</label>
+                                              <input type="time" id="horaInicio" name="horaInicio" class="form-control">
+                                          </div>
+                                          <div class="col-md-6 col-xs-12">
+                                              <label class="paragraph-xsmall">Horário final</label>
+                                              <input type="time" id="horaFinal" name="horaFinal" class="form-control">
+                                          </div>
+                                      </div>
+                                      <div class="row mb-2">
+                                          <div class="col-md-6 col-xs-12">
+                                              <label class="paragraph-xsmall">Frequência</label>
+                                              <select class="form-select" id="frequencia" name="frequencia">
+                                                  <option value="">Selecione a frequência</option>
+                                              </select>
+                                          </div>
+                                          <div class="col-md-6 col-xs-12">
+                                              <label class="paragraph-xsmall">Data final</label>
+                                              <input type="date" id="dataFinal" name="dataFinal" disabled class="form-control">
+                                          </div>
+                                      </div>                                
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+                  <div class="modal-footer" style="text-align: center; border-top: 0px; padding-inline: 24px;">
+                      <button type="button" disabled class="mt-4 btn btn-default" id="btnSalvarAgendamento" style="width: 100%; margin-bottom: 12px;">Salvar</button>
+                  </div>
               </div>
           </div>
-        </div>
+      </div>
       </main>
       <footer>
         <div class="container-fluid">

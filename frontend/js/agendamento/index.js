@@ -1,6 +1,7 @@
 (function (window, document, $, undefined) {
     "use strict";
     setCalendarConfiguration();
+    $("#btnNovoAgendamento").click(showModalAgendamento);
 })(window, document, window.jQuery);
 
 function setCalendarConfiguration() {
@@ -10,4 +11,9 @@ function setCalendarConfiguration() {
         initialView: 'dayGridMonth'
       });
     calendar.render();
+}
+
+function showModalAgendamento(){
+    console.log("teste");
+    $("#modalAgendamento").modal("show");
 }
