@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="h-100" lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Title</title>
+  <link href="../../css/layout.css" rel="stylesheet">
+  <link href="../../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../css/common.css" rel="stylesheet">
+  <link href="../../assets/fullcalendar/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="h-100">
+  <div class="out-container h-100">
+
+    <header class="w-100">
+      <div class="d-flex justify-content-end align-items-center">         
+        <h2>Nome do usuário</h2>    
+        <button class="btn btn-danger" id="btnLogout" role="button">Sair</button>
+      </div>      
+    </header>
+    
+    <div class="left-container"> 
+      <h1 style="text-align: center; font-family: cursive;">Saúde<span style="font-weight: bold; color:#0dcaf0">+</span>Barão</h1>           
+      <nav>
+        <ul>
+          <li><a href="../home/home.html">Início</a></li>
+          <li><a href="../agendamento/index.html">Agendamentos</a></li>
+        </ul>
+      </nav>
+    </div>    
+
+    <div class="main-container">      
+      <main class="h-100">        
+        <div class="col-lg-9">
+          <div class="card">
+              <div class="card-body">
+                  <div id="calendar"></div>
+              </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <script>document.write(new Date().getFullYear())</script> © Saúde+Barão
+            </div>
+        </div>
+      </footer>      
+    </div>
+    
+  </div>
+  
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/jquery.validate.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../assets/fullcalendar/main.js"></script>
+  <script src="../../assets/fullcalendar/locales/pt-br.js"></script>
+
+  <script src="../../js/agendamento/index.js"></script>
+
+</body>
+</html>

@@ -4,22 +4,33 @@ body {
   margin: 0;
   padding: 0;
 }
-h2 {
-  font-size: 1.4rem;
+header{
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
+  padding: 1rem;  
+  z-index: 2;
 }
-
+header h2 {
+  font-size: 1rem;
+  margin-right: 1rem;
+}
 /* Precisa definir o esquema de cores */
 .out-container {
-  display: flex;
+  display: block;
 }
 
 .left-container {
+  z-index: 3;
+  position: fixed;
+  width: 250px;
   min-height: 100%;
   box-shadow: 1px 0px 5px #EEE;
 }
 
 .left-container h1 {
-  padding: 0 1rem;
+  padding-top: 1rem;
   font-weight: 500;
   text-align: center;
 }
@@ -28,7 +39,6 @@ h2 {
   list-style: none;
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
   padding: 0;
 }
 
@@ -37,17 +47,19 @@ h2 {
   color: #333;
   padding: .7rem 0;
   display: block;
-  text-align: center;
+  padding-left: 1rem;
 }
 
 .left-container nav ul li a:hover {
   background-color: rgba(0, 0, 0, .2)
 }
 
-.main-container {
+.main-container { 
+  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-left: 250px;
 }
 
 .main-container header {
@@ -56,9 +68,10 @@ h2 {
 }
 
 .main-container main {
+  overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 0 2rem 1rem 2rem;
+  padding: 0 2rem 5rem 2rem;
 }
 
 /* Dessa linha pra baixo nao mexi no codigo(ele foi gerado pelo chatgpt) */
@@ -99,7 +112,9 @@ footer {
   background-color: #333;
   color: #fff;
   padding: 20px;
-  text-align: center;
+  bottom: 0;
+  right: 0;
+  left: 250px;
 }
 
 footer ul {
