@@ -65,7 +65,6 @@
                               <input type="hidden" asp-for="Id" />
                               <input type="hidden" asp-for="Chave" />
                               <input type="hidden" asp-for="VinculoId" />
-                              <input type="hidden" asp-for="Excluido" />
                               <div class="col-12" style="padding-inline: 1rem;">
                                   <div style="background-color: transparent;">
                                       <div class="row mb-2">
@@ -91,6 +90,9 @@
                                               <label class="paragraph-xsmall">Status do agendamento</label>
                                               <select class="form-select" id="statusAgendamento" name="statusAgendamento">
                                                   <option value="">Selecione o status</option>
+                                                  <option value="1">Realizado</option>
+                                                  <option value="2">Confirmado</option>
+                                                  <option value="3">Cancelado</option>
                                               </select>
                                           </div>
                                       </div>                                                                                      
@@ -102,7 +104,7 @@
                                       </div>                
                                       <div class="row mb-2">
                                           <div class="col-md-6 col-xs-12">
-                                              <label class="paragraph-xsmall">Horário de início</label>
+                                              <label class="paragraph-xsmall">Horário inicial</label>
                                               <input type="time" id="horaInicio" name="horaInicio" class="form-control">
                                           </div>
                                           <div class="col-md-6 col-xs-12">
@@ -115,6 +117,11 @@
                                               <label class="paragraph-xsmall">Frequência</label>
                                               <select class="form-select" id="frequencia" name="frequencia">
                                                   <option value="">Selecione a frequência</option>
+                                                  <option value="1">Não se repete</option>
+                                                  <option value="2">Todos os dias</option>
+                                                  <option value="3">Semanal</option>
+                                                  <option value="4">Mensal</option>
+                                                  <option value="5">Anual</option>
                                               </select>
                                           </div>
                                           <div class="col-md-6 col-xs-12">
@@ -152,6 +159,6 @@
   <script src="../../assets/fullcalendar/locales/pt-br.js"></script>
 
   <script src="../../js/agendamento/index.js"></script>
-
+  <script src="../../js/agendamento/form.js"></script>
 </body>
 </html>

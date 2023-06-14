@@ -14,6 +14,6 @@ function setCalendarConfiguration() {
 }
 
 function showModalAgendamento(){
-    console.log("teste");
+    setFormConfiguration();
     $("#modalAgendamento").modal("show");
 }

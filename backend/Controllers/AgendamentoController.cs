@@ -21,9 +21,9 @@ namespace MC426_Backend.Controllers
             _mapper = mapper;
         }
 
-        [Route("[controller]/Cadastro")]
+        [Route("[controller]/Salvar")]
         [HttpPost]
-        public JsonResult CadastrarAgendamento(AgendamentoModel model)
+        public JsonResult SalvarAgendamento(AgendamentoModel model)
         {
             if (!ModelState.IsValid)
             {
