@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Enums;
 using MC426_Backend.Domain.Interfaces.Services;
@@ -19,6 +20,40 @@ namespace MC426_Backend.Controllers
         {
             _agendamentoService = agendamentoService;
             _mapper = mapper;
+        }
+
+        [Route("[controller]/GetAgendamentos")]
+        [HttpGet]
+        public JsonResult GetAgendamentos()
+        {
+            try
+            {
+                var agendamentos = _agendamentoService.GetAll().ToList();
+                var agendamentosModel = _mapper.Map<List<Agendamento>, List<AgendamentoModel>>(agendamentos);
+
+                return new JsonResult(Ok(agendamentosModel));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
+        [Route("[controller]/GetById/{id}")]
+        [HttpGet]
+        public JsonResult GetById(int id)
+        {
+            try
+            {
+                var agendamento = _agendamentoService.GetById(id);
+                var agendamentoModel = _mapper.Map<Agendamento, AgendamentoModel>(agendamento);
+
+                return new JsonResult(Ok(agendamentoModel));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
         }
 
         [Route("[controller]/Salvar")]
