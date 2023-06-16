@@ -22,7 +22,10 @@ namespace MC426_Backend.Domain.Entities
         public int PacienteId { get; set; }
 
         public Funcionario Medico { get; set; }
-        public int MedicoId { get; set; }        
+        public int MedicoId { get; set; }
+
+        [Required]
+        public EEspecialidade Especialidade { get; set; }
 
         [Required]
         public DateTime? DataInicio { get; set; }
