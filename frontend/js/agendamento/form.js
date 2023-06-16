@@ -1,8 +1,8 @@
 var operacao = null;
 
-function setFormConfiguration() {    
+async function setFormConfiguration(id) {    
 
-    operacao = ($("#Id").val() == 0) ? "insert" : "update";
+    operacao = (id == '') ? "insert" : "update";    
 
     $("#form-agendamento").validate({
         rules: {
@@ -51,8 +51,10 @@ function setFormConfiguration() {
     });
 
     setInputChange();
-    getPacientes();
-    getFuncionarios();
+    await Promise.all([getPacientes(), getFuncionarios()]);
+
+    if (id && id > 0)
+        getAgendamentoById(id);
 
     $("#btnSalvarAgendamento").unbind("click").bind("click", btnSalvar_Click);
     $("#btnSalvarAgendamento").prop("disabled", true);
@@ -60,14 +62,39 @@ function setFormConfiguration() {
     $("#frequencia").unbind("change").bind("change", frequenciaChange);
 }
 
-function getPacientes(){
+function getAgendamentoById(id){
+    try {    
+        $.ajax({
+            url: `https://localhost:5000/Agendamento/GetById/${id}`,
+            type: 'GET',
+            success: function (resposta) {
+                console.log(resposta);
+                if (resposta.statusCode == 400) {
+                    let erro = resposta.value[0].errorMessage || resposta.value;
+                    alert(erro);                                               
+                } else if (resposta.statusCode == 200) {   
+                    autoMapper(resposta.value);
+                    $("#dataInicio").val(resposta.value.dataInicioFormatada);
+                    $("#dataFinal").val(resposta.value.dataFinalFormatada);
+                }
+            },
+            error: function (resposta) {  
+                alert("Falha ao resgatar os dados do agendamento!");          
+            }
+        });
+    } catch (err) {
+        alert(err);
+    }
+}
+
+async function getPacientes(){
     $("#pacienteId").empty();
     $("#pacienteId").append($('<option>', {
         value: "",
         text: "Selecione o paciente",
     }));
     try {    
-        $.ajax({
+        await $.ajax({
             url: 'https://localhost:5000/Paciente/GetAll',
             type: 'GET',
             success: function (resposta) {
@@ -93,14 +120,14 @@ function getPacientes(){
     }
 }
 
-function getFuncionarios(){
+async function getFuncionarios(){
     $("#medicoId").empty();
     $("#medicoId").append($('<option>', {
         value: "",
         text: "Selecione o médico",
     }));
     try {    
-        $.ajax({
+        await $.ajax({
             url: 'https://localhost:5000/Funcionario/GetAll',
             type: 'GET',
             success: function (resposta) {
@@ -129,11 +156,21 @@ function getFuncionarios(){
 function btnSalvar_Click() {
     if ($("#form-agendamento").valid()) {        
         let data = $("#form-agendamento").serializeObject();
+        
+        if (operacao == "insert"){
+            delete data.id;
+            delete data.chave;
+            delete data.vinculoId;
+        }
+
+        console.log(data);
+
         try {    
             $.ajax({
                 url: 'https://localhost:5000/Agendamento/Salvar',
-                data: data,
+                data: JSON.stringify(data),
                 type: 'POST',
+                contentType: 'application/json',
                 dataType: 'json',
                 success: function (resposta) {
     
@@ -149,7 +186,7 @@ function btnSalvar_Click() {
                         alert(message);
 
                         setTimeout(function () {
-                            window.location.href = "/index.html";
+                            window.location.href = "index.html";
                         }, 1500);
                     }
     
@@ -182,4 +219,10 @@ function frequenciaChange() {
     else {
         $("#dataFinal").prop("disabled", true);
     }
+}
+
+function autoMapper(model){
+    $.each(model, function(key, value) {
+        $('#' + key).val(value);
+      });
 }

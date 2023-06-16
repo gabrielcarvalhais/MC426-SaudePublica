@@ -62,9 +62,9 @@
                   <div class="modal-body d-flex justify-content-center agendamento-novo" style="padding: 0;">
                       <div class="row" style="width: 100%;">
                           <form id="form-agendamento" class="" action="#" style="width: 100%">
-                              <input type="hidden" asp-for="Id" />
-                              <input type="hidden" asp-for="Chave" />
-                              <input type="hidden" asp-for="VinculoId" />
+                              <input type="hidden" id="id" name="id"/>
+                              <input type="hidden" id="chave" name="chave" />
+                              <input type="hidden" id="vinculoId" name="vinculoId" />
                               <div class="col-12" style="padding-inline: 1rem;">
                                   <div style="background-color: transparent;">
                                       <div class="row mb-2">
@@ -86,13 +86,35 @@
                                           </div>
                                       </div>
                                       <div class="row mb-2">
+                                        <div class="col-md-12 col-xs-12">
+                                            <label class="paragraph-xsmall">Especialidade</label>
+                                            <select class="form-select" id="especialidade" name="especialidade">
+                                                <option value="">Selecione a especialidade</option>
+                                                <option value="1">Clínico geral</option>
+                                                <option value="2">Cardiologia</option>
+                                                <option value="3">Dermatologia</option>
+                                                <option value="4">Ginecologia</option>                                                  
+                                                <option value="5">Ortopedia</option>
+                                                <option value="6">Pediatria</option>
+                                                <option value="7">Oftalmologia</option>
+                                                <option value="8">Psiquiatria</option>
+                                                <option value="9">Endocrinologia</option>
+                                                <option value="10">Neurologia</option>
+                                                <option value="11">Radiologia</option>
+                                                <option value="12">Fisioterapia</option>
+                                            </select>
+                                        </div>
+                                    </div>  
+                                      <div class="row mb-2">
                                           <div class="col-md-12 col-xs-12">
                                               <label class="paragraph-xsmall">Status do agendamento</label>
                                               <select class="form-select" id="statusAgendamento" name="statusAgendamento">
                                                   <option value="">Selecione o status</option>
-                                                  <option value="1">Realizado</option>
-                                                  <option value="2">Confirmado</option>
-                                                  <option value="3">Cancelado</option>
+                                                  <option value="1">Em aberto</option>
+                                                  <option value="2">Aguardando</option>
+                                                  <option value="3">Confirmado</option>
+                                                  <option value="4">Realizado</option>                                                  
+                                                  <option value="5">Cancelado</option>
                                               </select>
                                           </div>
                                       </div>                                                                                      
@@ -155,6 +177,7 @@
   <script src="../../js/jquery.min.js"></script>
   <script src="../../js/jquery.validate.min.js"></script>
   <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/common.js"></script>
   <script src="../../assets/fullcalendar/main.js"></script>
   <script src="../../assets/fullcalendar/locales/pt-br.js"></script>
 
