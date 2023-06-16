@@ -6,6 +6,8 @@ using MC426_Backend.Infrastructure.Repositories;
 using MC426_Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +69,12 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddControllersWithViews()
+                .AddNewtonsoftJson(
+                    options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    });
 
 var app = builder.Build();
 
