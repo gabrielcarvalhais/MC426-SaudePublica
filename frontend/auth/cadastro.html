@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-100">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/cadastro/style.css" rel="stylesheet">
+    <title>Saúde+Barão - Cadastro</title>
+</head>
+
+<body class="h-100">
+
+    <div id="toast-cadastro" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <!-- toast content -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center h-100 w-50">
+        <div class="card border-info shadow-sm rounded">
+            <div class="card-body">
+                <div class="mb-3 text-center">
+                    <h1 class="text-center">Saúde<span class="text-weight-bold" style="color:#0dcaf0">+</span>Barão</h1>
+                    <p class="mt-2" style="color: #888888">Cadastre-se.</p>
+                </div>
+                <form id="form-cadastro" method="post">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Nome:</label>
+                            <input class="form-control" type="text" id="nome" name="nome" placeholder="Digite seu nome" />
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label for="email" class="form-label">E-mail:</label>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Digite seu e-mail">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">CPF:</label>
+                            <input class="form-control" type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" />
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Data de nascimento:</label>
+                            <input class="form-control" type="date" id="dataNascimento" name="dataNascimento"/>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Telefone:</label>
+                            <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Digite seu telefone" />
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label w-100">Tipo de usuário:</label>
+                            <select class="form-select" id="tipoUsuario" name="tipoUsuario">
+                                <option value="Paciente">Paciente</option>
+                                <option value="Funcionario">Funcionário</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Senha:</label>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Digite sua senha" />
+                        </div>                    
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Confirmação de senha:</label>
+                            <input class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua senha" />
+                        </div>
+                        <div class="d-flex justify-content-center mt-1">
+                            <button class="btn btn-primary" id="btnCadastrar" role="button">Cadastrar</button>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+    <script src="../js/cadastro/form.js"></script>
+</body>
+</html>

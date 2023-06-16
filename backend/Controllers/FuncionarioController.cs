@@ -3,7 +3,6 @@ using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Models;
-using MC426_Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

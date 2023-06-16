@@ -5,7 +5,6 @@ using MC426_Backend.Models;
 using MC426_Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace MC426_Backend.Controllers
 {

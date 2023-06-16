@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Xunit.Sdk;
 
 namespace MC426_Backend.Models
 {
