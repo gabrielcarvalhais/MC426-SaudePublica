@@ -1,6 +1,7 @@
 ﻿using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -38,18 +39,19 @@ namespace MC426_Backend.Controllers
 
                     var roles = _userManager.GetRolesAsync(usuario).Result;
 
+                    var nome = usuario.Name ?? "";
                     var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id));
-                    identity.AddClaim(new Claim(ClaimTypes.Name, usuario.UserName));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, nome));
                     identity.AddClaim(new Claim(ClaimTypes.Email, usuario.Email));
+
 
                     foreach (var role in roles)
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, role));
                     }
 
-                    await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
-
+                    await Request.HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
                     return new JsonResult(Ok());
                 }
                 else
@@ -62,6 +64,42 @@ namespace MC426_Backend.Controllers
             {
                 return new JsonResult(BadRequest(ex.Message));
             }
+        }
+
+        [Route("[controller]/Logout")]
+        [HttpGet]
+        public async Task<JsonResult> Logout()
+        {
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return new JsonResult(Ok());
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
+        [Route("[controller]/UsuarioLogado")]
+        [HttpGet]
+        public JsonResult UsuarioLogado()
+        {
+            try
+            {
+                bool usuarioLogado = User.Identity.IsAuthenticated;
+                var claims = User.Claims.ToList();
+                var retorno = new
+                {
+                    UsuarioLogado = usuarioLogado,
+                    Claims = claims
+                };
+                return new JsonResult(Ok(retorno));
+            }
+            catch(Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }            
         }
     }
 }
