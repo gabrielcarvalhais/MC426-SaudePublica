@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
@@ -75,6 +76,21 @@ namespace MC426_Backend.Controllers
             await _userManager.AddToRoleAsync(usuario, "Funcionário");
 
             return usuario.Id;
+        }
+
+        [Route("[controller]/GetAll")]
+        [HttpGet]
+        public JsonResult GetAllFuncionarios()
+        {
+            try
+            {
+                var funcionarios = _funcionarioService.GetAll().ToList();
+                return new JsonResult(Ok(funcionarios));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
         }
 
     }

@@ -1,0 +1,22 @@
+.fc-daygrid-event{
+    cursor: pointer;
+}
+
+#btnNovoAgendamento{
+    width: -webkit-fill-available;
+}
+
+.especialidade{
+    width: 20px; 
+    height: 20px;
+    margin-right: 5px
+}
+
+.fc-col-header-cell-cushion, .fc-daygrid-day-number{
+    color: #000;
+}
+
+.fc-button{
+    background-color: #0dcaf0 !important;
+    border-color: #0dcaf0 !important;
+}

@@ -76,5 +76,20 @@ namespace MC426_Backend.Controllers
             return usuario.Id;
         }
 
+        [Route("[controller]/GetAll")]
+        [HttpGet]
+        public JsonResult GetAllPacientes()
+        {
+            try
+            {
+                var pacientes = _pacienteService.GetAll().ToList();
+                return new JsonResult(Ok(pacientes));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Enums;
 using MC426_Backend.Domain.Interfaces.Services;
@@ -6,6 +7,7 @@ using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace MC426_Backend.Controllers
 {
@@ -13,17 +15,63 @@ namespace MC426_Backend.Controllers
     public class AgendamentoController : Controller
     {
         private readonly IAgendamentoService _agendamentoService;
+        private readonly IPacienteService _pacienteService;
         private readonly IMapper _mapper;
 
-        public AgendamentoController(IAgendamentoService agendamentoService, IMapper mapper)
+        public AgendamentoController(IAgendamentoService agendamentoService, IPacienteService pacienteService, IMapper mapper)
         {
             _agendamentoService = agendamentoService;
+            _pacienteService = pacienteService;
             _mapper = mapper;
         }
 
-        [Route("[controller]/Cadastro")]
+        [Route("[controller]/GetAgendamentos")]
         [HttpPost]
-        public JsonResult CadastrarAgendamento(AgendamentoModel model)
+        public JsonResult GetAgendamentos(FiltroAgendamentoModel filtro)
+        {
+            try
+            {
+                var agendamentos = _agendamentoService.GetAll().ToList();                
+                if (filtro.UserId != null && filtro.UserId != string.Empty)
+                {
+                    var paciente = _pacienteService.GetByChave(Guid.Parse(filtro.UserId));
+                    agendamentos = agendamentos.Where(x => x.PacienteId == paciente.Id).ToList();
+                }
+                if (filtro.Especialidades != null && filtro.Especialidades.Length > 0)
+                {
+                    agendamentos = agendamentos.Where(a => filtro.Especialidades.Contains((int)a.Especialidade)).ToList();
+                }
+
+                var agendamentosModel = _mapper.Map<List<Agendamento>, List<AgendamentoModel>>(agendamentos);
+
+                return new JsonResult(Ok(agendamentosModel));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
+        [Route("[controller]/GetById/{id}")]
+        [HttpGet]
+        public JsonResult GetById(int id)
+        {
+            try
+            {
+                var agendamento = _agendamentoService.GetById(id);
+                var agendamentoModel = _mapper.Map<Agendamento, AgendamentoModel>(agendamento);
+
+                return new JsonResult(Ok(agendamentoModel));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
+        [Route("[controller]/Salvar")]
+        [HttpPost]
+        public JsonResult SalvarAgendamento(AgendamentoModel model)
         {
             if (!ModelState.IsValid)
             {

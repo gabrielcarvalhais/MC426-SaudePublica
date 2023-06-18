@@ -2,6 +2,22 @@
     color: #FF0000;
 }
 
+.toast {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+}
+
+.form-check-primary input{
+   cursor: pointer;
+}
+
+.form-check-primary input:checked{
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
 .btn-default {
     --bs-btn-color: #fff;
     --bs-btn-bg: #0dcaf0;

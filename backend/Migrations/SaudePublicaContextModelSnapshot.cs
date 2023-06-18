@@ -41,6 +41,9 @@ namespace MC426_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Especialidade")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
 
@@ -147,6 +150,9 @@ namespace MC426_Backend.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -191,15 +197,15 @@ namespace MC426_Backend.Migrations
                         {
                             Id = "6bc92124-2866-4d0b-82c3-e629139c2c03",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "690b4c6f-47d7-46f5-a154-02153d0efcf9",
+                            ConcurrencyStamp = "e57dad70-146d-4552-a815-cd3341c86b54",
                             Email = "admin@saudepublica.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@saudepublica.com",
                             NormalizedUserName = "admin@saudepublica.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPwDrd97hOIPX6eEuI1Nc486b4tYwDkK0eB8sGi9tJgsuWhFleAi5gcxd+lFBMQ1bA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK4u1R2M1bv5XPIx+kEd8r+gCyEASwvzuFSXwp2MImkfE14gJmUwpBRDca7J3Dmu0w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f40687f-5576-42d0-a165-a1d48821fd74",
+                            SecurityStamp = "4a68ebc5-4dbe-40c3-beed-ce5b4278d6e6",
                             TwoFactorEnabled = false,
                             UserName = "admin@saudepublica.com"
                         });
@@ -272,21 +278,21 @@ namespace MC426_Backend.Migrations
                         new
                         {
                             Id = "b4344bed-9d81-4c83-8fb5-b4653894ff90",
-                            ConcurrencyStamp = "a4911b08-c226-4de2-ac62-e609d41ea376",
+                            ConcurrencyStamp = "f360287d-0e0f-4054-988d-84ffd8a77372",
                             Name = "Administrador",
                             NormalizedName = "Administrador"
                         },
                         new
                         {
                             Id = "d02b1923-6c99-4fe1-a1fa-4477ae031242",
-                            ConcurrencyStamp = "aa583a65-eebc-47a1-a2cb-03fd17a007c1",
+                            ConcurrencyStamp = "4d603844-2572-442b-94f4-c78278430492",
                             Name = "Paciente",
                             NormalizedName = "Paciente"
                         },
                         new
                         {
                             Id = "93c1d0a4-2a15-4b80-b062-be9bac57c979",
-                            ConcurrencyStamp = "1ccd1bda-4bfd-41ff-8b02-54a04e3ea749",
+                            ConcurrencyStamp = "dcb1eee0-3b1f-4dc8-90b2-44cfd87c9171",
                             Name = "Funcionário",
                             NormalizedName = "Funcionário"
                         });

@@ -23,5 +23,10 @@ namespace MC426_Backend.Infrastructure.Repositories
             obj.Excluido = true;
             base.Update(obj);
         }
+
+        public Paciente GetByChave(Guid chave)
+        {
+            return GetAll().FirstOrDefault(x => x.Chave == chave);
+        }
     }
 }

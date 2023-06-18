@@ -14,7 +14,5 @@ namespace MC426_Backend.Domain.Enums
         Mensal = 4,
         [Display(Name = "Anual")]
         Anual = 5,
-        [Display(Name = "Todos os dias da semana")]
-        TodosOsDiasSemana = 6,
     }
 }

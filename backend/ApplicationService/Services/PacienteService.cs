@@ -41,5 +41,10 @@ namespace MC426_Backend.ApplicationService.Services
         {
             _pacienteRepository.Delete(obj);
         }
+
+        public Paciente GetByChave(Guid chave)
+        {
+            return _pacienteRepository.GetByChave(chave);
+        }
     }
 }
