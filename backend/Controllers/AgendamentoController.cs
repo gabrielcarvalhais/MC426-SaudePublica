@@ -7,6 +7,7 @@ using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace MC426_Backend.Controllers
 {
@@ -14,21 +15,33 @@ namespace MC426_Backend.Controllers
     public class AgendamentoController : Controller
     {
         private readonly IAgendamentoService _agendamentoService;
+        private readonly IPacienteService _pacienteService;
         private readonly IMapper _mapper;
 
-        public AgendamentoController(IAgendamentoService agendamentoService, IMapper mapper)
+        public AgendamentoController(IAgendamentoService agendamentoService, IPacienteService pacienteService, IMapper mapper)
         {
             _agendamentoService = agendamentoService;
+            _pacienteService = pacienteService;
             _mapper = mapper;
         }
 
         [Route("[controller]/GetAgendamentos")]
-        [HttpGet]
-        public JsonResult GetAgendamentos()
+        [HttpPost]
+        public JsonResult GetAgendamentos(FiltroAgendamentoModel filtro)
         {
             try
             {
-                var agendamentos = _agendamentoService.GetAll().ToList();
+                var agendamentos = _agendamentoService.GetAll().ToList();                
+                if (filtro.UserId != null && filtro.UserId != string.Empty)
+                {
+                    var paciente = _pacienteService.GetByChave(Guid.Parse(filtro.UserId));
+                    agendamentos = agendamentos.Where(x => x.PacienteId == paciente.Id).ToList();
+                }
+                if (filtro.Especialidades != null && filtro.Especialidades.Length > 0)
+                {
+                    agendamentos = agendamentos.Where(a => filtro.Especialidades.Contains((int)a.Especialidade)).ToList();
+                }
+
                 var agendamentosModel = _mapper.Map<List<Agendamento>, List<AgendamentoModel>>(agendamentos);
 
                 return new JsonResult(Ok(agendamentosModel));
