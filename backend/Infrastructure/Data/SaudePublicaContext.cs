@@ -47,9 +47,11 @@ namespace MC426_Infrastructure.Data
             modelBuilder.ApplyConfiguration(new UsuarioRoleConfiguration());
             modelBuilder.ApplyConfiguration(new PacienteConfiguration());
             modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
+            modelBuilder.ApplyConfiguration(new AgendamentoConfiguration());
         }
 
         public DbSet<Paciente> Paciente { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
+        public DbSet<Agendamento> Agendamento { get; set; }
     }
 }
