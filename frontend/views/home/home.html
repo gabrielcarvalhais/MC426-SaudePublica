@@ -11,11 +11,22 @@
 </head>
 
 <body class="h-100">
+  <div id="toast-content" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <!-- toast content -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+
   <div class="out-container h-100">
 
     <header class="w-100">
       <div class="d-flex justify-content-end align-items-center">         
-        <h2>Nome do usuário</h2>    
+        <h2 class="userName"></h2>    
         <button class="btn btn-danger" id="btnLogout" role="button">Sair</button>
       </div>      
     </header>
@@ -30,34 +41,30 @@
       </nav>
     </div>    
 
-    <div class="main-container">      
+    <div class="main-container h-100">      
       <main class="h-100">        
-        <section id="search-form">
-          <h2>Encontre um médico</h2>
-          <form>
-            <label for="especialidade">Especialidade:</label>
-            <select id="especialidade">
-              <option value="cardiologia">Cardiologia</option>
-              <option value="dermatologia">Dermatologia</option>
-              <option value="ortopedia">Ortopedia</option>
-            </select>
-            
-            <label for="medico">Médico:</label>
-            <select id="medico">
-              <option value="medico1">Dr. João</option>
-              <option value="medico2">Dra. Maria</option>
-              <option value="medico3">Dr. Pedro</option>
-            </select>
-            
-            <label for="data">Data:</label>
-            <input type="date" id="data">
-            
-            <label for="horario">Horário:</label>
-            <input type="time" id="horario">
-            
-            <button type="submit">Agendar</button>
-          </form>
-        </section>
+        
+        <div class="row mb-4 mt-4">
+          <div class="col-lg-12">
+              <div class="card" style="padding-inline: 12px;">
+                  <div class="row">
+                      <div class="col-6 card-body">
+                          <div class="d-flex">
+                              <div class="flex-grow-1 align-self-center">
+                                  <div class="text-muted">
+                                      <p class="mb-2">Seja bem-vindo(a) 👋</p>
+                                      <h5 class="mb-1 userName"></h5>
+                                      <p class="userRole"></p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-6 banner-background"></div>
+                  </div>
+                  <!-- end row -->
+              </div>
+          </div>
+      </div>
         
         <section id="testimonials">
           <h2>Depoimentos</h2>
@@ -70,6 +77,7 @@
             <p>- João Santos</p>
           </div>
         </section>
+
       </main>
       <footer>
         <div class="container-fluid">
@@ -85,6 +93,12 @@
   <script src="../../js/jquery.min.js"></script>
   <script src="../../js/jquery.validate.min.js"></script>
   <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/common.js"></script>
+
+  <script>
+    verificaUsuarioLogado();
+  </script>
+  <script src="../../js/home/index.js"></script>
 
 </body>
 </html>

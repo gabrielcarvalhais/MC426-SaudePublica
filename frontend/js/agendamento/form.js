@@ -68,10 +68,9 @@ function getAgendamentoById(id){
             url: `https://localhost:5000/Agendamento/GetById/${id}`,
             type: 'GET',
             success: function (resposta) {
-                console.log(resposta);
                 if (resposta.statusCode == 400) {
                     let erro = resposta.value[0].errorMessage || resposta.value;
-                    alert(erro);                                               
+                    toastError(erro);                                               
                 } else if (resposta.statusCode == 200) {   
                     autoMapper(resposta.value);
                     $("#dataInicio").val(resposta.value.dataInicioFormatada);
@@ -79,7 +78,7 @@ function getAgendamentoById(id){
                 }
             },
             error: function (resposta) {  
-                alert("Falha ao resgatar os dados do agendamento!");          
+                toastError("Falha ao resgatar os dados do agendamento!");          
             }
         });
     } catch (err) {
@@ -100,7 +99,7 @@ async function getPacientes(){
             success: function (resposta) {
                 if (resposta.statusCode == 400) {
                     let erro = resposta.value[0].errorMessage || resposta.value;
-                    alert(erro);                                               
+                    toastError(erro);                                               
                 } else if (resposta.statusCode == 200) {   
                     let pacientes = resposta.value; 
                     for (let i = 0; i < pacientes.length; i++) {
@@ -112,7 +111,7 @@ async function getPacientes(){
                 }
             },
             error: function (resposta) {  
-                alert("Falha ao buscar os pacientes cadastrados!");          
+                toastError("Falha ao buscar os pacientes cadastrados!");          
             }
         });
     } catch (err) {
@@ -133,7 +132,7 @@ async function getFuncionarios(){
             success: function (resposta) {
                 if (resposta.statusCode == 400) {
                     let erro = resposta.value[0].errorMessage || resposta.value;
-                    alert(erro);                                               
+                    toastError(erro);                                               
                 } else if (resposta.statusCode == 200) {   
                     let medicos = resposta.value; 
                     for (let i = 0; i < medicos.length; i++) {
@@ -145,7 +144,7 @@ async function getFuncionarios(){
                 }
             },
             error: function (resposta) {  
-                alert("Falha ao buscar os médicos cadastrados!");          
+                toastError("Falha ao buscar os médicos cadastrados!");          
             }
         });
     } catch (err) {
@@ -176,14 +175,14 @@ function btnSalvar_Click() {
     
                     if (resposta.statusCode == 400) {
                         var erro = resposta.value[0].errorMessage || resposta.value;
-                        alert(erro);                                               
+                        toastError(erro);                                               
                     } else if (resposta.statusCode == 200) {    
                         var message = "";
                         if (operacao == "insert")
                             message = "O agendamento foi cadastrado com sucesso!"
                         else 
                             message = "O agendamento foi modificado com sucesso!";                                         
-                        alert(message);
+                        toastSuccess(message);
 
                         setTimeout(function () {
                             window.location.href = "index.html";
@@ -192,7 +191,7 @@ function btnSalvar_Click() {
     
                 },
                 error: function (resposta) {  
-                    alert("Falha ao realizar esta operação!");          
+                    toastError("Falha ao realizar esta operação!");          
                 }
             });
     

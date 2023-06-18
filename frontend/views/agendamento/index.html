@@ -13,11 +13,23 @@
 </head>
 
 <body class="h-100">
+
+    <div id="toast-content" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <!-- toast content -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+
   <div class="out-container h-100">
 
     <header class="w-100">
       <div class="d-flex justify-content-end align-items-center">         
-        <h2>Nome do usuário</h2>    
+        <h2 class="userName"></h2>    
         <button class="btn btn-danger" id="btnLogout" role="button">Sair</button>
       </div>      
     </header>
@@ -36,11 +48,55 @@
       <main class="h-100">
         <div class="row">
           <div class="col-lg-2">
-            <div class="card">
+            <div class="card" style="overflow: auto;">
               <div class="card-body">
                 <button class="btn btn-default d-flex align-items-center justify-content-center" id="btnNovoAgendamento">
                     Realizar agendamento
                 </button>
+                <div class="mt-4" style="width: fit-content;">
+                    <div class="d-flex justify-content-between">
+                        <h1 style="font-size: 16px;font-weight: 700;line-height: 24px;">Especialidade</h1>
+                        <a class="chevron d-flex"><i class="bx bx-chevron-up fa-2x"></i></a>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="1" type="checkbox">Clínico geral
+                        </div>
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="2" type="checkbox">Cardiologia
+                        </div>
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="3" type="checkbox">Dermatologia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="4" type="checkbox">Ginecologia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="5" type="checkbox">Ortopedia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="6" type="checkbox">Pediatria
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="7" type="checkbox">Oftalmologia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="8" type="checkbox">Psiquiatria
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="9" type="checkbox">Endocrinologia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="10" type="checkbox">Neurologia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="12" type="checkbox">Radiologia
+                        </div> 
+                        <div class="d-flex align-items-center mb-2 form-check-primary">
+                            <input class="form-check-input especialidade" id="12" type="checkbox">Fisioterapia
+                        </div>                     
+                    </div>                                        
+                </div>
               </div>  
             </div> 
           </div>       
@@ -180,7 +236,7 @@
   <script src="../../js/common.js"></script>
   <script src="../../assets/fullcalendar/main.js"></script>
   <script src="../../assets/fullcalendar/locales/pt-br.js"></script>
-
+  
   <script src="../../js/agendamento/index.js"></script>
   <script src="../../js/agendamento/form.js"></script>
 </body>

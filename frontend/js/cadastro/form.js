@@ -43,8 +43,6 @@ jQuery.validator.addMethod("cpf", function(value, element) {
 
 (function (window, document, $, undefined) {
     "use strict";
-
-
     $(function () {
         $("#btnCadastrar").click(function(e){
             btnCadastrar_click(e);

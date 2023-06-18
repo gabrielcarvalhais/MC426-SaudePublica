@@ -33,8 +33,12 @@ function btnEntrar_click(e) {
     if (form.valid()) {        
         let data = form.serializeObject();
         $.ajax({
-            url: 'https://localhost:5000/Autenticacao/Login',
+            url: 'http://localhost:5001/Autenticacao/Login',
             data: JSON.stringify(data),
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
@@ -42,9 +46,9 @@ function btnEntrar_click(e) {
                 if (resposta != null) {
                     if (resposta.statusCode == 400) {
                         var erro = resposta.value[0].errorMessage || resposta.value;
-                        alert(erro);
+                        toastError(erro);
                     } else if (resposta.statusCode == 200) {
-                        alert("Usuário autenticado com sucesso!")
+                        toastSuccess("Usuário autenticado com sucesso!")
                         setTimeout(function () {
                             window.location.href = "home/home.html";
                         }, 1000);

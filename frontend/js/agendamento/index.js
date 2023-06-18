@@ -3,7 +3,9 @@ var eventos = [];
 (async function (window, document, $, undefined) {
     "use strict";
     setCalendarConfiguration();
+    await verificaUsuarioLogado();
     await getEvents();
+    $(".especialidade").change(getEvents);
     $("#btnNovoAgendamento").click(showModalAgendamento);
 })(window, document, window.jQuery);
 
@@ -26,15 +28,28 @@ function showModalAgendamento(id){
 }
 
 async function getEvents() {
-
+    var especialidades = []
+    for (var i = 0; i < $(".especialidade").length; i++) {
+        var especialidade = $(".especialidade")[i];
+        if (especialidade.checked) {
+            especialidades.push(especialidade.id);
+        }
+    }
+    let data = {
+        UserId: userId,
+        Especialidades: especialidades
+    };
+    console.log(JSON.stringify(data));
     await $.ajax({
         url: 'https://localhost:5000/Agendamento/GetAgendamentos',
-        type: 'GET',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
         dataType: 'json',
         success: function (resposta) {
             if (resposta.statusCode == 400) {
                 let erro = resposta.value[0].errorMessage || resposta.value;
-                alert(erro);                                               
+                toastError(erro);                                               
             } else if (resposta.statusCode == 200) {   
                 eventos = [];
                 $.each(resposta.value, function (r, item) {
@@ -43,6 +58,7 @@ async function getEvents() {
                         title: item.nomeEspecialidade,
                         start: item.dataHoraInicio,
                         end: item.dataHoraFim,
+                        color: "#0dcaf0",
                         display: "block",
                     });
 
