@@ -2,7 +2,7 @@ var operacao = null;
 
 async function setFormConfiguration(id) {    
 
-    operacao = !id ? "insert" : "update";    
+    operacao = !id ? "insert" : "update";
 
     $("#form-agendamento").validate({
         rules: {
@@ -44,11 +44,15 @@ async function setFormConfiguration(id) {
         },
     });
 
+    $("#form-agendamento").trigger("reset");
+    
     setInputChange();
     await getFuncionarios();
 
     if (id && id > 0)
         getAgendamentoById(id);
+
+    frequenciaChange();
 
     $("#btnSalvarAgendamento").unbind("click").bind("click", btnSalvar_Click);
     $("#btnSalvarAgendamento").prop("disabled", true);
@@ -65,10 +69,11 @@ function getAgendamentoById(id){
                 if (resposta.statusCode == 400) {
                     let erro = resposta.value[0].errorMessage || resposta.value;
                     toastError(erro);                                               
-                } else if (resposta.statusCode == 200) {   
+                } else if (resposta.statusCode == 200) {
                     autoMapper(resposta.value);
                     $("#dataInicio").val(resposta.value.dataInicioFormatada);
                     $("#dataFinal").val(resposta.value.dataFinalFormatada);
+                    frequenciaChange();
                 }
             },
             error: function (resposta) {  
