@@ -49,8 +49,9 @@ function btnEntrar_click(e) {
                         toastError(erro);
                     } else if (resposta.statusCode == 200) {
                         toastSuccess("Usuário autenticado com sucesso!")
+                        
                         setTimeout(function () {
-                            window.location.href = "views/home/home.html";
+                            window.location.href = "home/home.html";
                         }, 1000);
                     }
                 }
