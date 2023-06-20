@@ -50,7 +50,7 @@ function btnEntrar_click(e) {
                     } else if (resposta.statusCode == 200) {
                         toastSuccess("Usuário autenticado com sucesso!")
                         setTimeout(function () {
-                            window.location.href = "home/home.html";
+                            window.location.href = "views/home/home.html";
                         }, 1000);
                     }
                 }

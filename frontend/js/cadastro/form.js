@@ -135,7 +135,7 @@ function btnCadastrar_click(e) {
                         $("#toast-cadastro").toast('show');
                         
                         setTimeout(function () {
-                            window.location.href = "/home/home.html";
+                            window.location.href = "views/home/home.html";
                         }, 2000);
                     }
                     else{
