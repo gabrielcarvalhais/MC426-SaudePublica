@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Entities;
-using MC426_Backend.Domain.Enums;
 using MC426_Backend.Domain.Interfaces.Services;
-using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace MC426_Backend.Controllers
 {
@@ -16,12 +11,14 @@ namespace MC426_Backend.Controllers
     {
         private readonly IAgendamentoService _agendamentoService;
         private readonly IPacienteService _pacienteService;
+        private readonly IFuncionarioService _funcionarioService;
         private readonly IMapper _mapper;
 
-        public AgendamentoController(IAgendamentoService agendamentoService, IPacienteService pacienteService, IMapper mapper)
+        public AgendamentoController(IAgendamentoService agendamentoService, IPacienteService pacienteService, IFuncionarioService funcionarioService, IMapper mapper)
         {
             _agendamentoService = agendamentoService;
             _pacienteService = pacienteService;
+            _funcionarioService = funcionarioService;
             _mapper = mapper;
         }
 
@@ -32,10 +29,19 @@ namespace MC426_Backend.Controllers
             try
             {
                 var agendamentos = _agendamentoService.GetAll().ToList();                
+
                 if (filtro.UserId != null && filtro.UserId != string.Empty)
                 {
-                    var paciente = _pacienteService.GetByChave(Guid.Parse(filtro.UserId));
-                    agendamentos = agendamentos.Where(x => x.PacienteId == paciente.Id).ToList();
+                    if (string.IsNullOrEmpty(filtro.UserRole) || filtro.UserRole == "Paciente")
+                    {
+                        var paciente = _pacienteService.GetByChave(Guid.Parse(filtro.UserId));
+                        agendamentos = agendamentos.Where(x => x.PacienteId == paciente.Id).ToList();
+                    }
+                    else
+                    {
+                        var funcionario = _funcionarioService.GetByChave(Guid.Parse(filtro.UserId));
+                        agendamentos = agendamentos.Where(x => x.MedicoId == funcionario.Id).ToList();
+                    }
                 }
                 if (filtro.Especialidades != null && filtro.Especialidades.Length > 0)
                 {

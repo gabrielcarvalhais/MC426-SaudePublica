@@ -6,7 +6,11 @@ var eventos = [];
     await verificaUsuarioLogado();
     await getEvents();
     $(".especialidade").change(getEvents);
-    $("#btnNovoAgendamento").click(() => showModalAgendamento());
+
+    if (userRole == "Paciente") {
+      $("#btnNovoAgendamento").click(() => showModalAgendamento());
+      $("#btnNovoAgendamento").css('display', 'flex');
+    }
 })(window, document, window.jQuery);
 
 function setCalendarConfiguration() {
@@ -37,6 +41,7 @@ async function getEvents() {
     }
     let data = {
         UserId: userId,
+        UserRole: userRole,
         Especialidades: especialidades
     };
     
@@ -49,7 +54,8 @@ async function getEvents() {
         success: function (resposta) {
             if (resposta.statusCode == 400) {
                 let erro = resposta.value[0].errorMessage || resposta.value;
-                toastError(erro);                                               
+                toastError(erro);              
+                console.error(resposta)                                 
             } else if (resposta.statusCode == 200) {   
                 eventos = [];
                 $.each(resposta.value, function (r, item) {
@@ -64,7 +70,7 @@ async function getEvents() {
 
                 });
             }            
-            setCalendarConfiguration();;
+            setCalendarConfiguration();
         }
     });
 }

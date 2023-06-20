@@ -1,7 +1,7 @@
 ﻿using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using MC426_Backend.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,11 +13,16 @@ namespace MC426_Backend.Controllers
     {
         private readonly SignInManager<Usuario> _signInManager;
         private readonly UserManager<Usuario> _userManager;
+        private readonly IPacienteService _pacienteService;
+        private readonly IFuncionarioService _funcionarioService;
 
-        public AutenticacaoController(SignInManager<Usuario> signInManager, UserManager<Usuario> userManager)
+
+        public AutenticacaoController(SignInManager<Usuario> signInManager, UserManager<Usuario> userManager, IPacienteService pacienteService, IFuncionarioService funcionarioService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _pacienteService = pacienteService;
+            _funcionarioService = funcionarioService;
         }
 
         [Route("[controller]/Login")]
@@ -39,12 +44,18 @@ namespace MC426_Backend.Controllers
 
                     var roles = _userManager.GetRolesAsync(usuario).Result;
 
+                    string userRoleId = null!;
+                    if (roles[0] == "Paciente")
+                        userRoleId = _pacienteService.GetByChave(Guid.Parse(usuario.Id)).Id.ToString();
+                    else
+                        userRoleId = _funcionarioService.GetByChave(Guid.Parse(usuario.Id)).Id.ToString();
+
                     var nome = usuario.Name ?? "";
                     var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id));
                     identity.AddClaim(new Claim(ClaimTypes.Name, nome));
+                    identity.AddClaim(new Claim(ClaimTypes.UserData, userRoleId));
                     identity.AddClaim(new Claim(ClaimTypes.Email, usuario.Email));
-
 
                     foreach (var role in roles)
                     {

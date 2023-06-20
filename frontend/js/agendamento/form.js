@@ -12,9 +12,6 @@ async function setFormConfiguration(id) {
             medicoId: {
                 required: true
             },
-            pacienteId: {
-                required: true
-            },
             dataInicio: {
                 required: true
             },
@@ -34,7 +31,6 @@ async function setFormConfiguration(id) {
         messages: {
             statusAgendamento: "Status obrigatório",
             medicoId: "Médico obrigatório",
-            pacienteId: "Paciente obrigatório",
             dataInicio: "Data obrigatória",
             horaInicio: "Horário inicial obrigatório",
             horaFinal: "Horário final obrigatório",
@@ -42,16 +38,14 @@ async function setFormConfiguration(id) {
             dataFinal: "Data final obrigatória",
         },
         errorPlacement: function (error, element) {
-            if (element.attr("name") == 'PacienteId')
-                error.insertAfter($("#PacienteError"));
-            else if (element.attr("name") == 'MedicoId')
+            if (element.attr("name") == 'MedicoId')
                 error.insertAfter($("#MedicoError"));
             else error.insertAfter(element);
         },
     });
 
     setInputChange();
-    await Promise.all([getPacientes(), getFuncionarios()]);
+    await getFuncionarios();
 
     if (id && id > 0)
         getAgendamentoById(id);
@@ -79,39 +73,6 @@ function getAgendamentoById(id){
             },
             error: function (resposta) {  
                 toastError("Falha ao resgatar os dados do agendamento!");          
-            }
-        });
-    } catch (err) {
-        toastError(err);
-    }
-}
-
-async function getPacientes(){
-    $("#pacienteId").empty();
-    $("#pacienteId").append($('<option>', {
-        value: "",
-        text: "Selecione o paciente",
-    }));
-    try {    
-        await $.ajax({
-            url: 'https://localhost:5000/Paciente/GetAll',
-            type: 'GET',
-            success: function (resposta) {
-                if (resposta.statusCode == 400) {
-                    let erro = resposta.value[0].errorMessage || resposta.value;
-                    toastError(erro);                                               
-                } else if (resposta.statusCode == 200) {   
-                    let pacientes = resposta.value; 
-                    for (let i = 0; i < pacientes.length; i++) {
-                        $('#pacienteId').append($('<option>', {
-                            value: pacientes[i].id,
-                            text: pacientes[i].nome
-                        }));
-                    }
-                }
-            },
-            error: function (resposta) {  
-                toastError("Falha ao buscar os pacientes cadastrados!");          
             }
         });
     } catch (err) {
@@ -161,6 +122,8 @@ function btnSalvar_Click() {
             delete data.chave;
             delete data.vinculoId;
         }
+
+        data.pacienteId = specificUserRoleId;
 
         try {    
             $.ajax({

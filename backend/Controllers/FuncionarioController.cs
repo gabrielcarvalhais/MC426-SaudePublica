@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
