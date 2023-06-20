@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
@@ -54,6 +53,7 @@ namespace MC426_Backend.Controllers
         {
             var usuario = new Usuario()
             {
+                Name = model.Nome,
                 UserName = model.Email,
                 NormalizedUserName = model.Email,
                 Email = model.Email,

@@ -26,6 +26,11 @@ namespace MC426_Backend.ApplicationService.Services
             return _funcionarioRepository.GetById(id);
         }
 
+        public Funcionario GetByChave(Guid chave)
+        {
+            return _funcionarioRepository.GetByChave(chave);
+        }
+
         public override void Insert(Funcionario obj)
         {
             _funcionarioRepository.Insert(obj);

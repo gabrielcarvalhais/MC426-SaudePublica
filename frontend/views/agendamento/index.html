@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page Title</title>
+  <title>Saúde + Barão</title>
   <link href="../../css/layout.css" rel="stylesheet">
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <link href="../../css/common.css" rel="stylesheet">
@@ -30,7 +30,7 @@
     <header class="w-100">
       <div class="d-flex justify-content-end align-items-center">         
         <h2 class="userName"></h2>    
-        <button class="btn btn-danger" id="btnLogout" role="button">Sair</button>
+        <button class="btn btn-outline-danger" id="btnLogout" role="button">Sair</button>
       </div>      
     </header>
     
@@ -50,10 +50,10 @@
           <div class="col-lg-2">
             <div class="card" style="overflow: auto;">
               <div class="card-body">
-                <button class="btn btn-default d-flex align-items-center justify-content-center" id="btnNovoAgendamento">
+                <button class="btn btn-default mb-4 align-items-center justify-content-center" style="display: none;" id="btnNovoAgendamento">
                     Realizar agendamento
                 </button>
-                <div class="mt-4" style="width: fit-content;">
+                <div style="width: fit-content;">
                     <div class="d-flex justify-content-between">
                         <h1 style="font-size: 16px;font-weight: 700;line-height: 24px;">Especialidade</h1>
                         <a class="chevron d-flex"><i class="bx bx-chevron-up fa-2x"></i></a>
@@ -125,15 +125,6 @@
                                   <div style="background-color: transparent;">
                                       <div class="row mb-2">
                                           <div class="col-md-12 col-xs-12">
-                                              <label class="paragraph-xsmall">Paciente</label>
-                                              <select class="form-select" id="pacienteId" name="pacienteId">
-                                                  <option value="">Selecione o paciente</option>
-                                              </select>
-                                              <span id="PacienteError"></span>
-                                          </div>
-                                      </div> 
-                                      <div class="row mb-2">
-                                          <div class="col-md-12 col-xs-12">
                                               <label class="paragraph-xsmall">Médico</label>
                                               <select class="form-select" id="medicoId" name="medicoId">
                                                   <option value="">Selecione o médico</option>
@@ -160,8 +151,8 @@
                                                 <option value="12">Fisioterapia</option>
                                             </select>
                                         </div>
-                                    </div>  
-                                      <div class="row mb-2">
+                                    </div>
+                                      <div id="statusAgendamentoField" style="display: none;" class="row mb-2">
                                           <div class="col-md-12 col-xs-12">
                                               <label class="paragraph-xsmall">Status do agendamento</label>
                                               <select class="form-select" id="statusAgendamento" name="statusAgendamento">
@@ -173,7 +164,7 @@
                                                   <option value="5">Cancelado</option>
                                               </select>
                                           </div>
-                                      </div>                                                                                      
+                                      </div>
                                       <div class="row mb-2">
                                           <div class="col-md-12 col-xs-12">
                                               <label class="paragraph-xsmall">Data de início</label>

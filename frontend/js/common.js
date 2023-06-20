@@ -1,6 +1,8 @@
 var userName = null;
 var userRole = null;
 var userId = null;
+var userEmail = null;
+var specificUserRoleId = null; // pacienteId ou funcionarioId
 
 (function (window, document, $, undefined) {
     "use strict";
@@ -32,21 +34,23 @@ async function verificaUsuarioLogado() {
         },    
         crossDomain: true,    
         success: function(resposta) {
-            console.log(resposta);
             if (resposta.statusCode == 400) {
                 let erro = resposta.value[0].errorMessage || resposta.value;
                 alert(erro);                                               
             } else if (resposta.statusCode == 200) { 
                 if (resposta.value.usuarioLogado === false) {                
                     window.location.href = "../index.html";
-                }                
+                }
+
+                userId = resposta.value.claims[0].value;
                 userName = resposta.value.claims[1].value;
-                userRole = resposta.value.claims[3].value
-                if (userRole == "Paciente")
-                    userId = resposta.value.claims[0].value;
+                specificUserRoleId = resposta.value.claims[2].value;
+                userEmail = resposta.value.claims[3].value;
+                userRole = resposta.value.claims[4].value;
+
                 $(".userName").text(userName);
                 $(".userRole").text(userRole);
-            }            
+            }
         },
         error: function(resposta) {
             window.location.href = "../index.html";     

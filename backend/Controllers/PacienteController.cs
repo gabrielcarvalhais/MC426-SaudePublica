@@ -53,6 +53,7 @@ namespace MC426_Backend.Controllers
         {
             var usuario = new Usuario()
             {
+                Name = model.Nome,
                 UserName = model.Email,
                 NormalizedUserName = model.Email,
                 Email = model.Email,

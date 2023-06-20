@@ -49,6 +49,7 @@ function btnEntrar_click(e) {
                         toastError(erro);
                     } else if (resposta.statusCode == 200) {
                         toastSuccess("Usuário autenticado com sucesso!")
+                        
                         setTimeout(function () {
                             window.location.href = "home/home.html";
                         }, 1000);
@@ -56,7 +57,7 @@ function btnEntrar_click(e) {
                 }
             },
             error: function (resposta) {
-                alert("Falha ao tentar autenticar este usuário!")
+                toastError("Falha ao tentar autenticar este usuário!")
             }
         });
     }

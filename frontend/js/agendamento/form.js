@@ -1,18 +1,13 @@
 var operacao = null;
+var idPacienteOperacao = null;
 
 async function setFormConfiguration(id) {    
 
-    operacao = (id == '') ? "insert" : "update";    
+    operacao = !id ? "insert" : "update";
 
     $("#form-agendamento").validate({
         rules: {
-            statusAgendamento: {
-                required: true
-            },
             medicoId: {
-                required: true
-            },
-            pacienteId: {
                 required: true
             },
             dataInicio: {
@@ -32,9 +27,7 @@ async function setFormConfiguration(id) {
             }
         },
         messages: {
-            statusAgendamento: "Status obrigatório",
             medicoId: "Médico obrigatório",
-            pacienteId: "Paciente obrigatório",
             dataInicio: "Data obrigatória",
             horaInicio: "Horário inicial obrigatório",
             horaFinal: "Horário final obrigatório",
@@ -42,19 +35,24 @@ async function setFormConfiguration(id) {
             dataFinal: "Data final obrigatória",
         },
         errorPlacement: function (error, element) {
-            if (element.attr("name") == 'PacienteId')
-                error.insertAfter($("#PacienteError"));
-            else if (element.attr("name") == 'MedicoId')
+            if (element.attr("name") == 'MedicoId')
                 error.insertAfter($("#MedicoError"));
             else error.insertAfter(element);
         },
     });
 
+    $("#form-agendamento").trigger("reset");
+
+    if (operacao === "update" && userRole === "Funcionário")
+      $("#statusAgendamentoField").css("display", "block")
+    
     setInputChange();
-    await Promise.all([getPacientes(), getFuncionarios()]);
+    await getFuncionarios();
 
     if (id && id > 0)
         getAgendamentoById(id);
+
+    frequenciaChange();
 
     $("#btnSalvarAgendamento").unbind("click").bind("click", btnSalvar_Click);
     $("#btnSalvarAgendamento").prop("disabled", true);
@@ -71,10 +69,12 @@ function getAgendamentoById(id){
                 if (resposta.statusCode == 400) {
                     let erro = resposta.value[0].errorMessage || resposta.value;
                     toastError(erro);                                               
-                } else if (resposta.statusCode == 200) {   
+                } else if (resposta.statusCode == 200) {
                     autoMapper(resposta.value);
+                    idPacienteOperacao = resposta.value.pacienteId;
                     $("#dataInicio").val(resposta.value.dataInicioFormatada);
                     $("#dataFinal").val(resposta.value.dataFinalFormatada);
+                    frequenciaChange();
                 }
             },
             error: function (resposta) {  
@@ -82,40 +82,7 @@ function getAgendamentoById(id){
             }
         });
     } catch (err) {
-        alert(err);
-    }
-}
-
-async function getPacientes(){
-    $("#pacienteId").empty();
-    $("#pacienteId").append($('<option>', {
-        value: "",
-        text: "Selecione o paciente",
-    }));
-    try {    
-        await $.ajax({
-            url: 'https://localhost:5000/Paciente/GetAll',
-            type: 'GET',
-            success: function (resposta) {
-                if (resposta.statusCode == 400) {
-                    let erro = resposta.value[0].errorMessage || resposta.value;
-                    toastError(erro);                                               
-                } else if (resposta.statusCode == 200) {   
-                    let pacientes = resposta.value; 
-                    for (let i = 0; i < pacientes.length; i++) {
-                        $('#pacienteId').append($('<option>', {
-                            value: pacientes[i].id,
-                            text: pacientes[i].nome
-                        }));
-                    }
-                }
-            },
-            error: function (resposta) {  
-                toastError("Falha ao buscar os pacientes cadastrados!");          
-            }
-        });
-    } catch (err) {
-        alert(err);
+        toastError(err);
     }
 }
 
@@ -148,7 +115,7 @@ async function getFuncionarios(){
             }
         });
     } catch (err) {
-        alert(err);
+        toastError(err);
     }
 }
 
@@ -160,9 +127,11 @@ function btnSalvar_Click() {
             delete data.id;
             delete data.chave;
             delete data.vinculoId;
+            delete data.statusAgendamento;
+            data.pacienteId = specificUserRoleId;
+        } else {
+            data.pacienteId = idPacienteOperacao;
         }
-
-        console.log(data);
 
         try {    
             $.ajax({
@@ -196,7 +165,7 @@ function btnSalvar_Click() {
             });
     
         } catch (err) {
-            alert(err);
+            toastError(err);
         }                  
     }
 }
