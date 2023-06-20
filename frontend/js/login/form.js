@@ -57,7 +57,7 @@ function btnEntrar_click(e) {
                 }
             },
             error: function (resposta) {
-                alert("Falha ao tentar autenticar este usuário!")
+                toastError("Falha ao tentar autenticar este usuário!")
             }
         });
     }

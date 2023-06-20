@@ -6,7 +6,7 @@ var eventos = [];
     await verificaUsuarioLogado();
     await getEvents();
     $(".especialidade").change(getEvents);
-    $("#btnNovoAgendamento").click(showModalAgendamento);
+    $("#btnNovoAgendamento").click(() => showModalAgendamento());
 })(window, document, window.jQuery);
 
 function setCalendarConfiguration() {
@@ -39,7 +39,7 @@ async function getEvents() {
         UserId: userId,
         Especialidades: especialidades
     };
-    console.log(JSON.stringify(data));
+    
     await $.ajax({
         url: 'https://localhost:5000/Agendamento/GetAgendamentos',
         type: 'POST',

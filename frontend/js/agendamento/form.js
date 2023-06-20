@@ -2,7 +2,7 @@ var operacao = null;
 
 async function setFormConfiguration(id) {    
 
-    operacao = (id == '') ? "insert" : "update";    
+    operacao = !id ? "insert" : "update";    
 
     $("#form-agendamento").validate({
         rules: {
@@ -82,7 +82,7 @@ function getAgendamentoById(id){
             }
         });
     } catch (err) {
-        alert(err);
+        toastError(err);
     }
 }
 
@@ -115,7 +115,7 @@ async function getPacientes(){
             }
         });
     } catch (err) {
-        alert(err);
+        toastError(err);
     }
 }
 
@@ -148,7 +148,7 @@ async function getFuncionarios(){
             }
         });
     } catch (err) {
-        alert(err);
+        toastError(err);
     }
 }
 
@@ -161,8 +161,6 @@ function btnSalvar_Click() {
             delete data.chave;
             delete data.vinculoId;
         }
-
-        console.log(data);
 
         try {    
             $.ajax({
@@ -196,7 +194,7 @@ function btnSalvar_Click() {
             });
     
         } catch (err) {
-            alert(err);
+            toastError(err);
         }                  
     }
 }
