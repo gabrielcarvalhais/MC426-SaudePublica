@@ -1,4 +1,5 @@
 var operacao = null;
+var idPacienteOperacao = null;
 
 async function setFormConfiguration(id) {    
 
@@ -41,6 +42,9 @@ async function setFormConfiguration(id) {
     });
 
     $("#form-agendamento").trigger("reset");
+
+    if (operacao === "update" && userRole === "Funcionário")
+      $("#statusAgendamentoField").css("display", "block")
     
     setInputChange();
     await getFuncionarios();
@@ -67,6 +71,7 @@ function getAgendamentoById(id){
                     toastError(erro);                                               
                 } else if (resposta.statusCode == 200) {
                     autoMapper(resposta.value);
+                    idPacienteOperacao = resposta.value.pacienteId;
                     $("#dataInicio").val(resposta.value.dataInicioFormatada);
                     $("#dataFinal").val(resposta.value.dataFinalFormatada);
                     frequenciaChange();
@@ -122,9 +127,11 @@ function btnSalvar_Click() {
             delete data.id;
             delete data.chave;
             delete data.vinculoId;
+            delete data.statusAgendamento;
+            data.pacienteId = specificUserRoleId;
+        } else {
+            data.pacienteId = idPacienteOperacao;
         }
-
-        data.pacienteId = specificUserRoleId;
 
         try {    
             $.ajax({

@@ -45,10 +45,12 @@ namespace MC426_Backend.Controllers
                     var roles = _userManager.GetRolesAsync(usuario).Result;
 
                     string userRoleId = null!;
-                    if (roles[0] == "Paciente")
-                        userRoleId = _pacienteService.GetByChave(Guid.Parse(usuario.Id)).Id.ToString();
-                    else
+                    if (roles[0] == "Administrador")
+                        userRoleId = "0";
+                    else if (roles[0] == "Funcionário")
                         userRoleId = _funcionarioService.GetByChave(Guid.Parse(usuario.Id)).Id.ToString();
+                    else
+                        userRoleId = _pacienteService.GetByChave(Guid.Parse(usuario.Id)).Id.ToString();
 
                     var nome = usuario.Name ?? "";
                     var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
