@@ -11,7 +11,6 @@ namespace MC426_Backend.Models
 
         public Guid Chave { get; set; }
 
-        [Required(ErrorMessage = "Status obrigatório")]
         public EStatusAgendamento StatusAgendamento { get; set; }
 
         public PacienteModel? Paciente { get; set; }

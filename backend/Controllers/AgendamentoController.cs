@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Services;
+using MC426_Backend.Domain.Enums;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -109,7 +110,8 @@ namespace MC426_Backend.Controllers
                 else
                 {
                     var agendamento = _mapper.Map<AgendamentoModel, Agendamento>(model);
-                    agendamento.Chave = Guid.NewGuid();                                        
+                    agendamento.Chave = Guid.NewGuid();
+                    agendamento.StatusAgendamento = EStatusAgendamento.Confirmado;
 
                     _agendamentoService.Insert(agendamento);
                     return new JsonResult(Ok());

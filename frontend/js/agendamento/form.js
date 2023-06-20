@@ -6,9 +6,6 @@ async function setFormConfiguration(id) {
 
     $("#form-agendamento").validate({
         rules: {
-            statusAgendamento: {
-                required: true
-            },
             medicoId: {
                 required: true
             },
@@ -29,7 +26,6 @@ async function setFormConfiguration(id) {
             }
         },
         messages: {
-            statusAgendamento: "Status obrigatório",
             medicoId: "Médico obrigatório",
             dataInicio: "Data obrigatória",
             horaInicio: "Horário inicial obrigatório",
