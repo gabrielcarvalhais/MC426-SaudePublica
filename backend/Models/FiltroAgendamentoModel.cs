@@ -5,5 +5,6 @@
         public string? UserId { get; set; }
         public int[] Especialidades { get; set; }
         public string? UserRole { get; set; }
+        public bool Todos { get; set; }
     }
 }

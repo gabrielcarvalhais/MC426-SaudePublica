@@ -33,18 +33,10 @@ async function setFormConfiguration(id) {
             horaFinal: "Horário final obrigatório",
             frequencia: "Frequência obrigatória",
             dataFinal: "Data final obrigatória",
-        },
-        errorPlacement: function (error, element) {
-            if (element.attr("name") == 'MedicoId')
-                error.insertAfter($("#MedicoError"));
-            else error.insertAfter(element);
-        },
+        }
     });
 
-    $("#form-agendamento").trigger("reset");
-
-    if (operacao === "update" && userRole === "Funcionário")
-      $("#statusAgendamentoField").css("display", "block")
+    $("#form-agendamento").trigger("reset"); 
     
     setInputChange();
     await getFuncionarios();
@@ -52,12 +44,25 @@ async function setFormConfiguration(id) {
     if (id && id > 0)
         getAgendamentoById(id);
 
-    frequenciaChange();
-
     $("#btnSalvarAgendamento").unbind("click").bind("click", btnSalvar_Click);
+    $("#btnRemoverAgendamento").unbind("click").bind("click", btnRemover_Click);
     $("#btnSalvarAgendamento").prop("disabled", true);
 
     $("#frequencia").unbind("change").bind("change", frequenciaChange);
+
+    if (operacao === "insert"){
+        $("input").attr("disabled", false);
+        $("select").attr("disabled", false);
+        $('#statusAgendamento option:not(:contains("Em aberto"))').hide();
+        $("#btnSalvarAgendamento").show();
+    }
+    else{
+        $(".frequency-row").hide();
+    }
+    if (userRole === "Paciente"){
+        $("#btnRemoverAgendamento").hide();
+        $("#medicoField").hide();    
+    } 
 }
 
 function getAgendamentoById(id){
@@ -74,7 +79,19 @@ function getAgendamentoById(id){
                     idPacienteOperacao = resposta.value.pacienteId;
                     $("#dataInicio").val(resposta.value.dataInicioFormatada);
                     $("#dataFinal").val(resposta.value.dataFinalFormatada);
-                    frequenciaChange();
+                    if (userRole == "Paciente"){
+                        if ($("#statusAgendamento").val() !== '1'){                
+                            $("input").attr("disabled", true);
+                            $("select").attr("disabled", true);
+                            $("#btnSalvarAgendamento").hide();
+                        }
+                        else{
+                            $("input").attr("disabled", false);
+                            $("select").attr("disabled", false);
+                            $("#btnSalvarAgendamento").show();
+                            $('#statusAgendamento option:not(:contains("Em aberto"))').hide();
+                        } 
+                    }                    
                 }
             },
             error: function (resposta) {  
@@ -127,7 +144,6 @@ function btnSalvar_Click() {
             delete data.id;
             delete data.chave;
             delete data.vinculoId;
-            delete data.statusAgendamento;
             data.pacienteId = specificUserRoleId;
         } else {
             data.pacienteId = idPacienteOperacao;
@@ -168,6 +184,44 @@ function btnSalvar_Click() {
             toastError(err);
         }                  
     }
+}
+
+function btnRemover_Click() { 
+    $("#modalAgendamento").modal("hide");      
+    $("#modalDelete").modal("show");  
+    $("#btnConfirmDelete").click(confirmDelete);         
+}
+
+function confirmDelete(){
+    var id = $("#id").val();
+    try {    
+        $.ajax({
+            url: `https://localhost:5000/Agendamento/Excluir/${id}`,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function (resposta) {
+
+                if (resposta.statusCode == 400) {
+                    var erro = resposta.value[0].errorMessage || resposta.value;
+                    toastError(erro);                                               
+                } else if (resposta.statusCode == 200) {    
+                    var message = "";
+                    message = "O agendamento foi excluído com sucesso!"                                       
+                    toastSuccess(message);
+                    setTimeout(function () {
+                        window.location.href = "index.html";
+                    }, 3000);
+                }
+
+            },
+            error: function (resposta) {  
+                toastError("Falha ao realizar esta operação!");          
+            }
+        });
+
+    } catch (err) {
+        toastError(err);
+    }         
 }
 
 function setInputChange() {

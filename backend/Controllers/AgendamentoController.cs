@@ -38,7 +38,7 @@ namespace MC426_Backend.Controllers
                         var paciente = _pacienteService.GetByChave(Guid.Parse(filtro.UserId));
                         agendamentos = agendamentos.Where(x => x.PacienteId == paciente.Id).ToList();
                     }
-                    else
+                    else if (!filtro.Todos)
                     {
                         var funcionario = _funcionarioService.GetByChave(Guid.Parse(filtro.UserId));
                         agendamentos = agendamentos.Where(x => x.MedicoId == funcionario.Id).ToList();
@@ -111,7 +111,69 @@ namespace MC426_Backend.Controllers
                 {
                     var agendamento = _mapper.Map<AgendamentoModel, Agendamento>(model);
                     agendamento.Chave = Guid.NewGuid();
-                    agendamento.StatusAgendamento = EStatusAgendamento.Confirmado;
+
+                    var data = agendamento.DataInicio;
+                    var dataFinal = agendamento.DataFinal;
+
+                    if (model.Frequencia != EFrequencia.NaoSeRepete)
+                        agendamento.Vinculos = new List<Agendamento>();
+
+                    if (model.Frequencia == EFrequencia.Semanal)
+                    {
+                        while (data <= dataFinal)
+                        {
+                            data = data.Value.AddDays(7);
+                            if (data <= dataFinal)
+                            {
+                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
+                                agendamentoVinculo.DataInicio = data;
+                                agendamentoVinculo.Chave = Guid.NewGuid();
+                                agendamento.Vinculos.Add(agendamentoVinculo);
+                            }
+                        }
+                    }
+                    else if (model.Frequencia == EFrequencia.Mensal)
+                    {
+                        while (data <= dataFinal)
+                        {
+                            data = data.Value.AddMonths(1);
+                            if (data <= dataFinal)
+                            {
+                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
+                                agendamentoVinculo.DataInicio = data;
+                                agendamentoVinculo.Chave = Guid.NewGuid();
+                                agendamento.Vinculos.Add(agendamentoVinculo);
+                            }
+                        }
+                    }
+                    else if (model.Frequencia == EFrequencia.Anual)
+                    {
+                        while (data <= dataFinal)
+                        {
+                            data = data.Value.AddYears(1);
+                            if (data <= dataFinal)
+                            {
+                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
+                                agendamentoVinculo.DataInicio = data;
+                                agendamentoVinculo.Chave = Guid.NewGuid();
+                                agendamento.Vinculos.Add(agendamentoVinculo);
+                            }
+                        }
+                    }
+                    else if (model.Frequencia == EFrequencia.TodosOsDias)
+                    {
+                        while (data <= dataFinal)
+                        {
+                            data = data.Value.AddDays(1);
+                            if (data <= dataFinal)
+                            {
+                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
+                                agendamentoVinculo.DataInicio = data;
+                                agendamentoVinculo.Chave = Guid.NewGuid();
+                                agendamento.Vinculos.Add(agendamentoVinculo);
+                            }
+                        }
+                    }
 
                     _agendamentoService.Insert(agendamento);
                     return new JsonResult(Ok());
@@ -122,5 +184,22 @@ namespace MC426_Backend.Controllers
                 return new JsonResult(BadRequest(ex.Message));
             }
         }
+
+        [Route("[controller]/Excluir/{id}")]
+        [HttpDelete]
+        public JsonResult ExcluirAgendamento(int id)
+        {
+            try
+            {
+                var agendamentoDb = _agendamentoService.GetById(Convert.ToInt32(id));
+                _agendamentoService.Delete(agendamentoDb);
+                return new JsonResult(Ok());                
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
     }
 }
