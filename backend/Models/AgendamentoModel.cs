@@ -18,8 +18,7 @@ namespace MC426_Backend.Models
         public int PacienteId { get; set; }
 
         public FuncionarioModel? Medico { get; set; }
-        [Required(ErrorMessage = "Médico obrigatório")]
-        public int MedicoId { get; set; }
+        public int? MedicoId { get; set; }
 
         [Required(ErrorMessage = "Especialidade obrigatória")]
         public EEspecialidade Especialidade { get; set; }
@@ -42,6 +41,8 @@ namespace MC426_Backend.Models
         public int? VinculoId { get; set; }
 
         public bool Excluido { get; set; }
+
+        public string Color => DefineCor(StatusAgendamento);
 
         public DateTime DataHoraInicio => RetornaDataHora(DataInicio, HoraInicio);
         public DateTime DataHoraFim => RetornaDataHora(DataInicio, HoraFinal);
@@ -73,6 +74,25 @@ namespace MC426_Backend.Models
                 return especialidade.GetDisplayName();
             else
                 return "";
+        }
+
+        private string DefineCor(EStatusAgendamento? statusAgendamento)
+        {
+            switch (statusAgendamento)
+            {
+                case EStatusAgendamento.EmAberto:
+                    return "#0dcaf0";
+                case EStatusAgendamento.Confirmado:
+                    return "#2bf032";
+                case EStatusAgendamento.Aguardando:
+                    return "#f0df2b";
+                case EStatusAgendamento.Cancelado:
+                    return "#f02b32";
+                case EStatusAgendamento.Realizado:
+                    return "#00ff99";
+                default:
+                    return "#0dcaf0";
+            }
         }
     }
 }
