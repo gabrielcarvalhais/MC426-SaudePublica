@@ -33,21 +33,20 @@ header h2 {
 }
 
 .left-container-header {
+  padding: 0.5rem;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-around;
-  padding: 1rem;
 }
 
 .left-container button {
-  width: 10%;
-  border-radius: 15%;
+  width: auto;
 }
 
 .left-container h1 {
   font-weight: 500;
   text-align: center;
-  width: 80%;
 }
 
 .left-container nav ul {
@@ -70,11 +69,10 @@ header h2 {
 }
 
 .main-container {
-  padding-top: 5rem;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin-left: 250px;
 }
 
 .main-container header {
