@@ -9,7 +9,7 @@ namespace MC426_Backend.ApplicationService.Services
 
         public EmailService(IConfiguration configuration) => _configuration = configuration;
 
-        public bool SendEmail(string email, string subject, string body)
+        public async Task SendEmail(string email, string subject, string body)
         {
             var message = new MimeMessage();
             message.From.Add(MailboxAddress.Parse(_configuration["EmailSettings:Sender"]));
@@ -18,23 +18,21 @@ namespace MC426_Backend.ApplicationService.Services
             message.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = body };
 
             using var smtp = new SmtpClient();
-            smtp.Connect("smtp.gmail.com", 587, false);
-            smtp.Authenticate(_configuration["EmailSettings:Sender"], _configuration["EmailSettings:SenderPassword"]);
+            await smtp.ConnectAsync("smtp.gmail.com", 587, false);
+            await smtp.AuthenticateAsync(_configuration["EmailSettings:Sender"], _configuration["EmailSettings:SenderPassword"]);
 
             try
             {
-                smtp.Send(message);
+                await smtp.SendAsync(message);
             }
             catch
             {
-                return false;
+                Console.Error.WriteLine($"Não foi possível enviar o email para {email}");
             }
             finally
             {
-                smtp.Disconnect(true);
+                await smtp.DisconnectAsync(true);
             }
-
-            return true;
         }
     }
 }
