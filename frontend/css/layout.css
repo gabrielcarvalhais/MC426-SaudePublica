@@ -1,0 +1,146 @@
+/* Estilos gerais */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, .03);
+  padding: 1rem;
+  z-index: 2;
+}
+
+header h2 {
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+/* Precisa definir o esquema de cores */
+.out-container {
+  display: block;
+}
+
+.left-container {
+  z-index: 3;
+  position: fixed;
+  width: 250px;
+  min-height: 100%;
+  box-shadow: 1px 0px 5px #EEE;
+}
+
+.left-container-header {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-container button {
+  width: auto;
+}
+
+.left-container h1 {
+  font-weight: 500;
+}
+
+.left-container nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.left-container nav ul li a {
+  text-decoration: none;
+  color: #333;
+  padding: .7rem 0;
+  display: block;
+  padding-left: 1rem;
+}
+
+.left-container nav ul li a:hover {
+  background-color: rgba(0, 0, 0, .2)
+}
+
+.main-container {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.main-container header {
+  box-shadow: 0px 1px 5px #EEE;
+  text-align: center;
+}
+
+.main-container main {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem 5rem 2rem;
+}
+
+/* Dessa linha pra baixo nao mexi no codigo(ele foi gerado pelo chatgpt) */
+section {
+  margin-bottom: 20px;
+}
+
+/* Formulário de busca */
+#search-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#search-form select,
+#search-form input[type="date"],
+#search-form input[type="time"],
+#search-form button {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+#search-form button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Depoimentos */
+.testimonial {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Rodapé */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  bottom: 0;
+  right: 0;
+  left: 250px;
+}
+
+footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+footer ul li a {
+  text-decoration: none;
+  color: #fff;
+}

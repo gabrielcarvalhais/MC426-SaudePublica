@@ -1,6 +1,5 @@
 ﻿using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Repositories;
-using MC426_Domain.Entities;
 using MC426_Infrastructure.Data;
 
 namespace MC426_Backend.Infrastructure.Repositories
@@ -23,6 +22,11 @@ namespace MC426_Backend.Infrastructure.Repositories
         {
             obj.Excluido = true;
             base.Update(obj);
+        }
+
+        public Funcionario GetByChave(Guid chave)
+        {
+            return GetAll().FirstOrDefault(x => x.Chave == chave);
         }
     }
 }

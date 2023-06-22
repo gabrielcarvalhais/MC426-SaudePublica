@@ -1,10 +1,10 @@
 ﻿using MC426_Backend.Controllers;
 using MC426_Backend.Infrastructure.Identity;
+using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -27,6 +27,9 @@ namespace MC426_Backend.Tests.Controllers
             var signInManagerMock = new Mock<SignInManager<Usuario>>(userManagerMock.Object, Mock.Of<IHttpContextAccessor>(), Mock.Of<IUserClaimsPrincipalFactory<Usuario>>(), null, null, null, null);
             signInManagerMock.Setup(x => x.PasswordSignInAsync(userModel.Email, userModel.Password, true, false)).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
 
+            var pacienteServiceMock = new Mock<IPacienteService>();
+            var funcionarioServiceMock = new Mock<IFuncionarioService>();
+
             var roles = new List<string> { "Administrador" };
             userManagerMock.Setup(x => x.GetRolesAsync(usuario)).ReturnsAsync(roles);
 
@@ -36,7 +39,7 @@ namespace MC426_Backend.Tests.Controllers
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(x => x.GetService(typeof(IAuthenticationService))).Returns(authServiceMock.Object);
 
-            var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object)
+            var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object, pacienteServiceMock.Object, funcionarioServiceMock.Object)
             {
                 ControllerContext = new ControllerContext()
                 {
@@ -75,7 +78,10 @@ namespace MC426_Backend.Tests.Controllers
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(x => x.GetService(typeof(IAuthenticationService))).Returns(authServiceMock.Object);
 
-            var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object)
+            var pacienteServiceMock = new Mock<IPacienteService>();
+            var funcionarioServiceMock = new Mock<IFuncionarioService>();
+
+            var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object, pacienteServiceMock.Object, funcionarioServiceMock.Object)
             {
                 ControllerContext = new ControllerContext()
                 {

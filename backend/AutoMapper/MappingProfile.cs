@@ -12,6 +12,8 @@ namespace MC426_Backend.AutoMapper
             CreateMap<Paciente, PacienteModel>().ReverseMap();
 
             CreateMap<Funcionario, FuncionarioModel>().ReverseMap();
+
+            CreateMap<Agendamento, AgendamentoModel>().ReverseMap();
         }
     }
 }

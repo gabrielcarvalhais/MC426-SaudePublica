@@ -22,6 +22,68 @@ namespace MC426_Backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MC426_Backend.Domain.Entities.Agendamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("AgendamentoId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("Chave")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataFinal")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataInicio")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Especialidade")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Excluido")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Frequencia")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan?>("HoraFinal")
+                        .IsRequired()
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan?>("HoraInicio")
+                        .IsRequired()
+                        .HasColumnType("time");
+
+                    b.Property<int?>("MedicoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusAgendamento")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("ValorHora")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("VinculoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MedicoId");
+
+                    b.HasIndex("PacienteId");
+
+                    b.HasIndex("VinculoId");
+
+                    b.ToTable("Agendamento", (string)null);
+                });
+
             modelBuilder.Entity("MC426_Backend.Domain.Entities.Funcionario", b =>
                 {
                     b.Property<int>("Id")
@@ -43,6 +105,11 @@ namespace MC426_Backend.Migrations
 
                     b.Property<DateTime?>("DataNascimento")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("VARCHAR(70)");
 
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
@@ -88,6 +155,9 @@ namespace MC426_Backend.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -132,15 +202,15 @@ namespace MC426_Backend.Migrations
                         {
                             Id = "6bc92124-2866-4d0b-82c3-e629139c2c03",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9bf50309-97cb-48cd-b774-268701138106",
+                            ConcurrencyStamp = "f60cc594-1559-4d33-875b-195b3fbf02dd",
                             Email = "admin@saudepublica.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@saudepublica.com",
                             NormalizedUserName = "admin@saudepublica.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN9whBjbKTn/qF7G6OgvtfVK95Bt4Uoh1I27TfRzdC46IsjpgHSZyP1LdBWY87Ow1Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK0ApmJgEmrmFHhzPvDjf3UEKbhhwUZfuoK3mt+xbDJAvO3c1ItTwJiqvc+Ep9Oeag==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "892beebc-aa3f-482c-9b6a-4a743ab80e72",
+                            SecurityStamp = "fae417a1-9478-40bc-af11-f804df09feb1",
                             TwoFactorEnabled = false,
                             UserName = "admin@saudepublica.com"
                         });
@@ -167,6 +237,11 @@ namespace MC426_Backend.Migrations
 
                     b.Property<DateTime?>("DataNascimento")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("VARCHAR(70)");
 
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
@@ -213,21 +288,21 @@ namespace MC426_Backend.Migrations
                         new
                         {
                             Id = "b4344bed-9d81-4c83-8fb5-b4653894ff90",
-                            ConcurrencyStamp = "9749cb42-ea70-4f10-a0ed-d4a7d95b65d1",
+                            ConcurrencyStamp = "fc7c067e-5ecf-4b38-a262-7a2abbbd9034",
                             Name = "Administrador",
                             NormalizedName = "Administrador"
                         },
                         new
                         {
                             Id = "d02b1923-6c99-4fe1-a1fa-4477ae031242",
-                            ConcurrencyStamp = "2bd6c704-9e06-4c5c-924c-7ba09b8f3077",
+                            ConcurrencyStamp = "f02f48e2-6ccf-4ad3-aac7-b8957c1eaea5",
                             Name = "Paciente",
                             NormalizedName = "Paciente"
                         },
                         new
                         {
                             Id = "93c1d0a4-2a15-4b80-b062-be9bac57c979",
-                            ConcurrencyStamp = "ea74a2f2-1028-47d6-8365-4f09b38c413c",
+                            ConcurrencyStamp = "f7aa1572-718b-4ae2-a62b-2f40439ad8d8",
                             Name = "Funcionário",
                             NormalizedName = "Funcionário"
                         });
@@ -346,6 +421,29 @@ namespace MC426_Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MC426_Backend.Domain.Entities.Agendamento", b =>
+                {
+                    b.HasOne("MC426_Backend.Domain.Entities.Funcionario", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoId");
+
+                    b.HasOne("MC426_Domain.Entities.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MC426_Backend.Domain.Entities.Agendamento", "Vinculo")
+                        .WithMany("Vinculos")
+                        .HasForeignKey("VinculoId");
+
+                    b.Navigation("Medico");
+
+                    b.Navigation("Paciente");
+
+                    b.Navigation("Vinculo");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -395,6 +493,11 @@ namespace MC426_Backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MC426_Backend.Domain.Entities.Agendamento", b =>
+                {
+                    b.Navigation("Vinculos");
                 });
 #pragma warning restore 612, 618
         }

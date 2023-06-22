@@ -5,7 +5,6 @@ using MC426_Backend.Models;
 using MC426_Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace MC426_Backend.Controllers
 {
@@ -54,6 +53,7 @@ namespace MC426_Backend.Controllers
         {
             var usuario = new Usuario()
             {
+                Name = model.Nome,
                 UserName = model.Email,
                 NormalizedUserName = model.Email,
                 Email = model.Email,
@@ -75,6 +75,21 @@ namespace MC426_Backend.Controllers
             await _userManager.AddToRoleAsync(usuario, "Paciente");
 
             return usuario.Id;
+        }
+
+        [Route("[controller]/GetAll")]
+        [HttpGet]
+        public JsonResult GetAllPacientes()
+        {
+            try
+            {
+                var pacientes = _pacienteService.GetAll().ToList();
+                return new JsonResult(Ok(pacientes));
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
         }
 
     }

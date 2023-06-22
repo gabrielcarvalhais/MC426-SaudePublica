@@ -5,12 +5,6 @@ using MC426_Domain.Entities;
 using MC426_Infrastructure.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MC426_Infrastructure.Data
 {
@@ -53,9 +47,11 @@ namespace MC426_Infrastructure.Data
             modelBuilder.ApplyConfiguration(new UsuarioRoleConfiguration());
             modelBuilder.ApplyConfiguration(new PacienteConfiguration());
             modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
+            modelBuilder.ApplyConfiguration(new AgendamentoConfiguration());
         }
 
         public DbSet<Paciente> Paciente { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
+        public DbSet<Agendamento> Agendamento { get; set; }
     }
 }

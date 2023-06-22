@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MC426_Domain.Entities
 {
@@ -22,6 +16,11 @@ namespace MC426_Domain.Entities
         [Column(TypeName = "VARCHAR(70)")]
         [MaxLength(70)]
         public string? Nome { get; set; }
+
+        [Required]
+        [Column(TypeName = "VARCHAR(70)")]
+        [MaxLength(70)]
+        public string? Email { get; set; }
 
         public DateTime? DataNascimento { get; set; }
 

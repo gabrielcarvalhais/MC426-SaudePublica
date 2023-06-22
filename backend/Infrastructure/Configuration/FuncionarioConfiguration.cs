@@ -1,5 +1,4 @@
 ﻿using MC426_Backend.Domain.Entities;
-using MC426_Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
