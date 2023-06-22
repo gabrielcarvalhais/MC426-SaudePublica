@@ -108,13 +108,15 @@ namespace MC426_Backend.Controllers
 
                     _agendamentoService.Update(agendamento);
 
-                    var paciente = _pacienteService.GetById(agendamento.PacienteId);
-                    var medico = _funcionarioService.GetById(agendamento.MedicoId);
+                    if (agendamento.MedicoId != null && agendamento.StatusAgendamento == EStatusAgendamento.Confirmado)
+                    {
+                        var paciente = _pacienteService.GetById(agendamento.PacienteId);
+                        var medico = _funcionarioService.GetById((int)agendamento.MedicoId);
 
-                    var pacienteEmail = paciente.Email;
-                    var medicoEmail = medico.Email;
+                        var pacienteEmail = paciente.Email;
+                        var medicoEmail = medico.Email;
 
-                    string inicioEmail = $@"
+                        string inicioEmail = $@"
                         <head>
                             <style>
                                 body {{
@@ -183,28 +185,30 @@ namespace MC426_Backend.Controllers
                                 
                                 <div class=""appointment"">";
 
-                    string fimEmail = $@"
-                                <p class=""appointment-details"">
-                                    Especialidade: {agendamento.Especialidade.ToString()}<br>
-                                    Data: {agendamento.DataInicio?.ToString("dd/MM/yyyy") ?? "N/A"}<br>
-                                    Hora: {agendamento.HoraInicio?.ToString(@"hh\:mm") ?? "N/A"} até {agendamento.HoraFinal?.ToString(@"hh\:mm") ?? "N/A"}<br>
-                                </p>
-                                </div>
+                            string fimEmail = $@"
+                                    <p class=""appointment-details"">
+                                        Especialidade: {agendamento.Especialidade.ToString()}<br>
+                                        Data: {agendamento.DataInicio?.ToString("dd/MM/yyyy") ?? "N/A"}<br>
+                                        Hora: {agendamento.HoraInicio?.ToString(@"hh\:mm") ?? "N/A"} até {agendamento.HoraFinal?.ToString(@"hh\:mm") ?? "N/A"}<br>
+                                    </p>
+                                    </div>
                                 
-                                <div class=""footer"">
-                                <p>Se você tiver alguma dúvida ou precisar de mais informações, entre em contato conosco.</p>
-                                <p>Atenciosamente,</p>
-                                <p>A equipe de agendamentos</p>
+                                    <div class=""footer"">
+                                    <p>Se você tiver alguma dúvida ou precisar de mais informações, entre em contato conosco.</p>
+                                    <p>Atenciosamente,</p>
+                                    <p>A equipe de agendamentos</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </body>
-                    ";
+                            </body>
+                        ";
 
-                    string emailPaciente = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o Dr. {medico.Nome}</h3>" + fimEmail;
-                    string emailMedico = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o paciente {paciente.Nome}</h3>" + fimEmail;
+                        string emailPaciente = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o Dr. {medico.Nome}</h3>" + fimEmail;
+                        string emailMedico = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o paciente {paciente.Nome}</h3>" + fimEmail;
 
-                    _emailService.SendEmail(pacienteEmail, "Saúde+Barão: Consulta médica atualizada", emailPaciente);
-                    _emailService.SendEmail(medicoEmail, "Saúde+Barão: Consulta médica atualizada", emailMedico);
+                        _emailService.SendEmail(pacienteEmail, "Saúde+Barão: Consulta médica atualizada", emailPaciente);
+                        _emailService.SendEmail(medicoEmail, "Saúde+Barão: Consulta médica atualizada", emailMedico);
+                    }
+                    
 
                     return new JsonResult(Ok());
                 }

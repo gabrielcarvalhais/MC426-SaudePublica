@@ -27,7 +27,8 @@ namespace MC426_Backend.ApplicationService.Services
                         DateTime inicioDia = DateTime.Today; // Hoje 00:00:00
                         DateTime fimDia = DateTime.Today.AddDays(1).AddTicks(-1); // Hoje 23:59:59
 
-                        var agendamentosDia = agendamentoService!.GetAll().Where(a => a.DataInicio >= inicioDia && a.DataInicio <= fimDia);
+                        var agendamentosDia = agendamentoService!.GetAll().Where(a => a.DataInicio >= inicioDia && a.DataInicio <= fimDia
+                        && a.MedicoId != null && a.StatusAgendamento == Domain.Enums.EStatusAgendamento.Confirmado);
                         var agendamentosPacientes = agendamentosDia.GroupBy(a => a.PacienteId);
                         var agendamentosMedicos = agendamentosDia.GroupBy(a => a.MedicoId);
 
@@ -103,7 +104,7 @@ namespace MC426_Backend.ApplicationService.Services
 
                             foreach (var agendamentoPaciente in group)
                             {
-                                var medico = funcionarioService!.GetById(agendamentoPaciente.MedicoId);
+                                var medico = funcionarioService!.GetById((int)agendamentoPaciente.MedicoId);
                                 var data = agendamentoPaciente.DataInicio?.ToString("dd/MM/yyyy") ?? "N/A";
                                 var hora = agendamentoPaciente.HoraInicio?.ToString(@"hh\:mm") ?? "N/A";
 
@@ -132,7 +133,7 @@ namespace MC426_Backend.ApplicationService.Services
 
                         foreach (var group in agendamentosMedicos)
                         {
-                            var funcionario = funcionarioService!.GetById(group.Key);
+                            var funcionario = funcionarioService!.GetById((int)group.Key);
                             string email = $@"
                                 <head>
                                     <style>
