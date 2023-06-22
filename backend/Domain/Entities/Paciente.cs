@@ -17,6 +17,11 @@ namespace MC426_Domain.Entities
         [MaxLength(70)]
         public string? Nome { get; set; }
 
+        [Required]
+        [Column(TypeName = "VARCHAR(70)")]
+        [MaxLength(70)]
+        public string? Email { get; set; }
+
         public DateTime? DataNascimento { get; set; }
 
         [Column(TypeName = "VARCHAR(11)")]

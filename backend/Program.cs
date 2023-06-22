@@ -4,12 +4,9 @@ using MC426_Backend.Domain.Interfaces.Services;
 using MC426_Backend.Infrastructure.Identity;
 using MC426_Backend.Infrastructure.Repositories;
 using MC426_Infrastructure.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +31,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
 });
 
-//Precisa do package AutoMapper.Extensions.Microsoft.DependencyInjection
+// Precisa do package AutoMapper.Extensions.Microsoft.DependencyInjection
 builder.Services.AddAutoMapper(typeof(Program));
 
 // Repositories
@@ -48,6 +45,10 @@ builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
 builder.Services.AddScoped<IAgendamentoService, AgendamentoService>();
+builder.Services.AddScoped<EmailService>();
+
+// adiciona background service de notificacao
+builder.Services.AddHostedService<NotificacaoBackgroundService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MC426_Backend.Domain.Entities;
 using MC426_Backend.Domain.Interfaces.Services;
+using MC426_Backend.ApplicationService.Services;
 using MC426_Backend.Domain.Enums;
 using MC426_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,16 @@ namespace MC426_Backend.Controllers
         private readonly IAgendamentoService _agendamentoService;
         private readonly IPacienteService _pacienteService;
         private readonly IFuncionarioService _funcionarioService;
+        private readonly EmailService _emailService;
         private readonly IMapper _mapper;
 
-        public AgendamentoController(IAgendamentoService agendamentoService, IPacienteService pacienteService, IFuncionarioService funcionarioService, IMapper mapper)
+        public AgendamentoController(IAgendamentoService agendamentoService, IPacienteService pacienteService, IFuncionarioService funcionarioService, IMapper mapper, EmailService emailService)
         {
             _agendamentoService = agendamentoService;
             _pacienteService = pacienteService;
             _funcionarioService = funcionarioService;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         [Route("[controller]/GetAgendamentos")]
@@ -104,6 +107,109 @@ namespace MC426_Backend.Controllers
                     agendamento = _mapper.Map(model, agendamento);
 
                     _agendamentoService.Update(agendamento);
+
+                    if (agendamento.MedicoId != null && agendamento.StatusAgendamento == EStatusAgendamento.Confirmado)
+                    {
+                        var paciente = _pacienteService.GetById(agendamento.PacienteId);
+                        var medico = _funcionarioService.GetById((int)agendamento.MedicoId);
+
+                        var pacienteEmail = paciente.Email;
+                        var medicoEmail = medico.Email;
+
+                        string inicioEmail = $@"
+                        <head>
+                            <style>
+                                body {{
+                                font-family: Arial, sans-serif;
+                                background-color: #f5f5f5;
+                                }}
+                                
+                                .container {{
+                                max-width: 600px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                background-color: #ffffff;
+                                border: 1px solid #cccccc;
+                                }}
+                                
+                                .header {{
+                                text-align: center;
+                                margin-bottom: 30px;
+                                }}
+                                
+                                .title {{
+                                color: #333333;
+                                font-size: 24px;
+                                margin-bottom: 10px;
+                                }}
+                                
+                                .subtitle {{
+                                color: #777777;
+                                font-size: 18px;
+                                margin-bottom: 20px;
+                                }}
+                                
+                                .appointment {{
+                                background-color: #f9f9f9;
+                                border-radius: 5px;
+                                padding: 10px;
+                                margin-bottom: 20px;
+                                }}
+                                
+                                .appointment-title {{
+                                color: #333333;
+                                font-size: 20px;
+                                margin-bottom: 5px;
+                                }}
+                                
+                                .appointment-details {{
+                                color: #777777;
+                                font-size: 16px;
+                                }}
+                                
+                                .footer {{
+                                text-align: center;
+                                margin-top: 30px;
+                                color: #777777;
+                                font-size: 14px;
+                                }}
+                            </style>
+                        </head>
+
+                        <body>
+                            <div class=""container"">
+                                <div class=""header"">
+                                <h1 class=""title"">Atualização de Consulta</h1>
+                                <h2 class=""subtitle"">Informações atualizadas sobre a sua consulta médica</h2>
+                                </div>
+                                
+                                <div class=""appointment"">";
+
+                            string fimEmail = $@"
+                                    <p class=""appointment-details"">
+                                        Especialidade: {agendamento.Especialidade.ToString()}<br>
+                                        Data: {agendamento.DataInicio?.ToString("dd/MM/yyyy") ?? "N/A"}<br>
+                                        Hora: {agendamento.HoraInicio?.ToString(@"hh\:mm") ?? "N/A"} até {agendamento.HoraFinal?.ToString(@"hh\:mm") ?? "N/A"}<br>
+                                    </p>
+                                    </div>
+                                
+                                    <div class=""footer"">
+                                    <p>Se você tiver alguma dúvida ou precisar de mais informações, entre em contato conosco.</p>
+                                    <p>Atenciosamente,</p>
+                                    <p>A equipe de agendamentos</p>
+                                    </div>
+                                </div>
+                            </body>
+                        ";
+
+                        string emailPaciente = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o Dr. {medico.Nome}</h3>" + fimEmail;
+                        string emailMedico = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o paciente {paciente.Nome}</h3>" + fimEmail;
+
+                        _emailService.SendEmail(pacienteEmail, "Saúde+Barão: Consulta médica atualizada", emailPaciente);
+                        _emailService.SendEmail(medicoEmail, "Saúde+Barão: Consulta médica atualizada", emailMedico);
+                    }
+                    
+
                     return new JsonResult(Ok());
                 }
                 //insert

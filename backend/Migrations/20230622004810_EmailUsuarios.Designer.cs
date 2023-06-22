@@ -4,6 +4,7 @@ using MC426_Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MC426_Backend.Migrations
 {
     [DbContext(typeof(SaudePublicaContext))]
-    partial class SaudePublicaContextModelSnapshot : ModelSnapshot
+    [Migration("20230622004810_EmailUsuarios")]
+    partial class EmailUsuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace MC426_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("time");
 
-                    b.Property<int?>("MedicoId")
+                    b.Property<int>("MedicoId")
                         .HasColumnType("int");
 
                     b.Property<int>("PacienteId")
@@ -425,7 +428,9 @@ namespace MC426_Backend.Migrations
                 {
                     b.HasOne("MC426_Backend.Domain.Entities.Funcionario", "Medico")
                         .WithMany()
-                        .HasForeignKey("MedicoId");
+                        .HasForeignKey("MedicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MC426_Domain.Entities.Paciente", "Paciente")
                         .WithMany()
