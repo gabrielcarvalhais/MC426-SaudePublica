@@ -27,6 +27,9 @@ namespace MC426_Backend.Tests.Controllers
             var signInManagerMock = new Mock<SignInManager<Usuario>>(userManagerMock.Object, Mock.Of<IHttpContextAccessor>(), Mock.Of<IUserClaimsPrincipalFactory<Usuario>>(), null, null, null, null);
             signInManagerMock.Setup(x => x.PasswordSignInAsync(userModel.Email, userModel.Password, true, false)).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
 
+            var pacienteServiceMock = new Mock<IPacienteService>();
+            var funcionarioServiceMock = new Mock<IFuncionarioService>();
+
             var roles = new List<string> { "Administrador" };
             userManagerMock.Setup(x => x.GetRolesAsync(usuario)).ReturnsAsync(roles);
 
@@ -36,22 +39,22 @@ namespace MC426_Backend.Tests.Controllers
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(x => x.GetService(typeof(IAuthenticationService))).Returns(authServiceMock.Object);
 
-            // var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object)
-            // {
-            //     ControllerContext = new ControllerContext()
-            //     {
-            //         HttpContext = new DefaultHttpContext
-            //         {
-            //             RequestServices = serviceProviderMock.Object
-            //         }
-            //     }
-            // };
+            var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object, pacienteServiceMock.Object, funcionarioServiceMock.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext
+                    {
+                        RequestServices = serviceProviderMock.Object
+                    }
+                }
+            };
 
-            // var result = await controller.Login(userModel);
+            var result = await controller.Login(userModel);
 
-            // Assert.IsType<JsonResult>(result);
-            // var jsonResult = Assert.IsType<JsonResult>(result);
-            // Assert.Equal(typeof(OkResult), jsonResult.Value.GetType());
+            Assert.IsType<JsonResult>(result);
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            Assert.Equal(typeof(OkResult), jsonResult.Value.GetType());
         }
 
         [Fact]
@@ -75,27 +78,30 @@ namespace MC426_Backend.Tests.Controllers
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(x => x.GetService(typeof(IAuthenticationService))).Returns(authServiceMock.Object);
 
-            // var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object)
-            // {
-            //     ControllerContext = new ControllerContext()
-            //     {
-            //         HttpContext = new DefaultHttpContext
-            //         {
-            //             RequestServices = serviceProviderMock.Object
-            //         }
-            //     }
-            // };
+            var pacienteServiceMock = new Mock<IPacienteService>();
+            var funcionarioServiceMock = new Mock<IFuncionarioService>();
 
-            // var result = await controller.Login(userModel);
+            var controller = new AutenticacaoController(signInManagerMock.Object, userManagerMock.Object, pacienteServiceMock.Object, funcionarioServiceMock.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext
+                    {
+                        RequestServices = serviceProviderMock.Object
+                    }
+                }
+            };
 
-            // Assert.IsType<JsonResult>(result);
-            // var jsonResult = Assert.IsType<JsonResult>(result);
-            // var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(jsonResult.Value);
-            // var errorArray = JArray.FromObject(badRequestObjectResult.Value);
-            // var errorMessage = errorArray[0].ToString();
-            // var errorMessageObject = JsonConvert.DeserializeObject<dynamic>(errorMessage);
-            // var errorMessageString = (string)errorMessageObject.ErrorMessage;
-            // Assert.Equal("E-mail ou senha inválidos.", errorMessageString);
+            var result = await controller.Login(userModel);
+
+            Assert.IsType<JsonResult>(result);
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(jsonResult.Value);
+            var errorArray = JArray.FromObject(badRequestObjectResult.Value);
+            var errorMessage = errorArray[0].ToString();
+            var errorMessageObject = JsonConvert.DeserializeObject<dynamic>(errorMessage);
+            var errorMessageString = (string)errorMessageObject.ErrorMessage;
+            Assert.Equal("E-mail ou senha inválidos.", errorMessageString);
         }
     }
 }
