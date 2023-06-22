@@ -1,7 +1,6 @@
 ﻿using MC426_Backend.Domain.Enums;
 using MC426_Backend.Utils;
 using System.ComponentModel.DataAnnotations;
-using Xunit.Sdk;
 
 namespace MC426_Backend.Models
 {
