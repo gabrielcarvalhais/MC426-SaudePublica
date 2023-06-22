@@ -6,11 +6,12 @@ var eventos = [];
     await verificaUsuarioLogado();
     await getEvents();
     $(".especialidade").change(getEvents);
-
+    $(".tipo-agenda").change(tipoAgendaChange);
     if (userRole == "Paciente") {
       $("#btnNovoAgendamento").click(() => showModalAgendamento());
-      $("#btnNovoAgendamento").css('display', 'flex');
-    }
+      $("#btnNovoAgendamento").css('display', 'flex');    
+      $("#filtro-tipo-agenda").hide();
+    }    
 })(window, document, window.jQuery);
 
 function setCalendarConfiguration() {
@@ -70,7 +71,8 @@ async function getEvents() {
     let data = {
         UserId: userId,
         UserRole: userRole,
-        Especialidades: especialidades
+        Especialidades: especialidades,
+        Todos: $(".tipo-agenda")[0].checked
     };
     
     await $.ajax({
@@ -82,8 +84,7 @@ async function getEvents() {
         success: function (resposta) {
             if (resposta.statusCode == 400) {
                 let erro = resposta.value[0].errorMessage || resposta.value;
-                toastError(erro);              
-                console.error(resposta)                                 
+                toastError(erro);                                             
             } else if (resposta.statusCode == 200) {   
                 eventos = [];
                 $.each(resposta.value, function (r, item) {
@@ -92,37 +93,54 @@ async function getEvents() {
                         title: item.nomeEspecialidade,
                         start: item.dataHoraInicio,
                         end: item.dataHoraFim,
-                        color: "#0dcaf0",
+                        color: item.color,
                         display: "block",
                     });
 
-                    if (item.frequencia != 1) {
-                        let endDate = new Date(item.dataFinal);
-                        endDate.setHours(23, 59, 59);
+                    // if (item.frequencia != 1) {
+                    //     let endDate = new Date(item.dataFinal);
+                    //     endDate.setHours(23, 59, 59);
                         
-                        let currentEventTimeStart = new Date(item.dataHoraInicio);
-                        let currentEventTimeEnd = new Date(item.dataHoraFim)
-                        let addFunction = item.frequencia == 2 ? addDays : item.frequencia == 3 ? addWeeks : item.frequencia == 4 ? addMonths : addYears;
+                    //     let currentEventTimeStart = new Date(item.dataHoraInicio);
+                    //     let currentEventTimeEnd = new Date(item.dataHoraFim)
+                    //     let addFunction = item.frequencia == 2 ? addDays : item.frequencia == 3 ? addWeeks : item.frequencia == 4 ? addMonths : addYears;
 
-                        currentEventTimeStart = addFunction(currentEventTimeStart, 1);
-                        currentEventTimeEnd = addFunction(currentEventTimeEnd, 1);
-                        while(currentEventTimeStart.getTime() <= endDate.getTime()) {
-                            eventos.push({
-                                id: item.id,
-                                title: item.nomeEspecialidade,
-                                start: currentEventTimeStart.toISOString(),
-                                end: currentEventTimeEnd.toISOString(),
-                                color: "#0dcaf0",
-                                display: "block",
-                            });
+                    //     currentEventTimeStart = addFunction(currentEventTimeStart, 1);
+                    //     currentEventTimeEnd = addFunction(currentEventTimeEnd, 1);
+                    //     while(currentEventTimeStart.getTime() <= endDate.getTime()) {
+                    //         eventos.push({
+                    //             id: item.id,
+                    //             title: item.nomeEspecialidade,
+                    //             start: currentEventTimeStart.toISOString(),
+                    //             end: currentEventTimeEnd.toISOString(),
+                    //             color: "#0dcaf0",
+                    //             display: "block",
+                    //         });
 
-                            currentEventTimeStart = addFunction(currentEventTimeStart, 1);
-                            currentEventTimeEnd = addFunction(currentEventTimeEnd, 1);
-                        }
-                    }
+                    //         currentEventTimeStart = addFunction(currentEventTimeStart, 1);
+                    //         currentEventTimeEnd = addFunction(currentEventTimeEnd, 1);
+                    //     }
+                    // }
                 });
             }            
             setCalendarConfiguration();
         }
     });
+}
+
+function tipoAgendaChange(){
+    let itemClicado = $(this)[0];
+    if (itemClicado.id == 'all'){
+        if (itemClicado.checked == true) 
+            $(".tipo-agenda")[1].checked = false;        
+        else 
+            $(".tipo-agenda")[1].checked = true;
+    }
+    else{
+        if (itemClicado.checked == true) 
+            $(".tipo-agenda")[0].checked = false;        
+        else 
+            $(".tipo-agenda")[0].checked = true;
+    }
+    getEvents();
 }

@@ -4,6 +4,7 @@ using MC426_Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MC426_Backend.Migrations
 {
     [DbContext(typeof(SaudePublicaContext))]
-    partial class SaudePublicaContextModelSnapshot : ModelSnapshot
+    [Migration("20230621045258_MedicoNullable")]
+    partial class MedicoNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,11 +109,6 @@ namespace MC426_Backend.Migrations
                     b.Property<DateTime?>("DataNascimento")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("VARCHAR(70)");
-
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
 
@@ -202,15 +200,15 @@ namespace MC426_Backend.Migrations
                         {
                             Id = "6bc92124-2866-4d0b-82c3-e629139c2c03",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f60cc594-1559-4d33-875b-195b3fbf02dd",
+                            ConcurrencyStamp = "4fd2f846-9abd-4ff2-9f09-5ff6aa95bca8",
                             Email = "admin@saudepublica.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@saudepublica.com",
                             NormalizedUserName = "admin@saudepublica.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK0ApmJgEmrmFHhzPvDjf3UEKbhhwUZfuoK3mt+xbDJAvO3c1ItTwJiqvc+Ep9Oeag==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAcwXFKiYSbTklflALvodIdj6N8eFb7a+XPv52SUBY7M7Qlo54vwhfo3LF8qokHpxg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fae417a1-9478-40bc-af11-f804df09feb1",
+                            SecurityStamp = "4e0d3029-dedd-457a-b0f0-2dc6cc2353db",
                             TwoFactorEnabled = false,
                             UserName = "admin@saudepublica.com"
                         });
@@ -237,11 +235,6 @@ namespace MC426_Backend.Migrations
 
                     b.Property<DateTime?>("DataNascimento")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("VARCHAR(70)");
 
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
@@ -288,21 +281,21 @@ namespace MC426_Backend.Migrations
                         new
                         {
                             Id = "b4344bed-9d81-4c83-8fb5-b4653894ff90",
-                            ConcurrencyStamp = "fc7c067e-5ecf-4b38-a262-7a2abbbd9034",
+                            ConcurrencyStamp = "0d76eb47-d26d-4585-a3a7-89028b1fac76",
                             Name = "Administrador",
                             NormalizedName = "Administrador"
                         },
                         new
                         {
                             Id = "d02b1923-6c99-4fe1-a1fa-4477ae031242",
-                            ConcurrencyStamp = "f02f48e2-6ccf-4ad3-aac7-b8957c1eaea5",
+                            ConcurrencyStamp = "6edbbf6a-930a-47e3-b431-9cdd89e9c93a",
                             Name = "Paciente",
                             NormalizedName = "Paciente"
                         },
                         new
                         {
                             Id = "93c1d0a4-2a15-4b80-b062-be9bac57c979",
-                            ConcurrencyStamp = "f7aa1572-718b-4ae2-a62b-2f40439ad8d8",
+                            ConcurrencyStamp = "75cadff4-b659-45b3-8b75-558cb9f34edd",
                             Name = "Funcionário",
                             NormalizedName = "Funcionário"
                         });
