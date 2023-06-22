@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="h-100" lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,20 +16,20 @@
 
 <body class="h-100">
 
-    <div id="toast-content" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive"
-        aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                <!-- toast content -->
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
-        </div>
+  <div id="toast-content" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        <!-- toast content -->
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+        aria-label="Close"></button>
     </div>
+  </div>
 
   <div class="out-container h-100">
 
-    <header class="w-100">
+    <!-- <header class="w-100">
       <div class="d-flex justify-content-end align-items-center">         
         <h2 class="userName"></h2>    
         <button class="btn btn-outline-danger" id="btnLogout" role="button">Sair</button>
@@ -43,223 +44,262 @@
           <li><a href="../agendamento/index.html">Agendamentos</a></li>
         </ul>
       </nav>
-    </div>    
+    </div>     -->
 
-    <div class="main-container">      
-      <main class="h-100">
-        <div class="row">
-          <div class="col-lg-2">
-            <div class="card" style="overflow: auto;">
-              <div class="card-body">
-                <button class="btn btn-default mb-4 align-items-center justify-content-center" style="display: none;" id="btnNovoAgendamento">
-                    Realizar agendamento
-                </button>
-                <div id="filtro-tipo-agenda" class="mb-4">
-                    <div class="d-flex justify-content-between">
-                        <h1 style="font-size: 16px;font-weight: 700;line-height: 24px;">Agendamentos</h1>
-                        <a class="chevron d-flex"><i class="bx bx-chevron-up fa-2x"></i></a>
-                    </div>
-                    <div>
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input tipo-agenda" id="all" checked type="checkbox">Todos
-                        </div>
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input tipo-agenda" type="checkbox"><span class="userName"></span>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: fit-content;">
-                    <div class="d-flex justify-content-between">
-                        <h1 style="font-size: 16px;font-weight: 700;line-height: 24px;">Especialidade</h1>
-                        <a class="chevron d-flex"><i class="bx bx-chevron-up fa-2x"></i></a>
-                    </div>
-                    <div>
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="1" type="checkbox">Clínico geral
-                        </div>
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="2" type="checkbox">Cardiologia
-                        </div>
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="3" type="checkbox">Dermatologia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="4" type="checkbox">Ginecologia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="5" type="checkbox">Ortopedia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="6" type="checkbox">Pediatria
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="7" type="checkbox">Oftalmologia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="8" type="checkbox">Psiquiatria
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="9" type="checkbox">Endocrinologia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="10" type="checkbox">Neurologia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="12" type="checkbox">Radiologia
-                        </div> 
-                        <div class="d-flex align-items-center mb-2 form-check-primary">
-                            <input class="form-check-input especialidade" id="12" type="checkbox">Fisioterapia
-                        </div>                     
-                    </div>                                        
-                </div>
-              </div>  
-            </div> 
-          </div>       
-          <div class="col-lg-10">
-            <div class="card">
-                <div class="card-body">
-                    <div id="calendar"></div>
-                </div>
+    <div class="out-container h-100">
+      <div class="container-fluid">
+        <div class="row flex-nowrap">
+          <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
+              <span class="fs-1 d-none d-sm-inline " style="align-self: center; font-family: cursive;">Saúde<span
+                  style="font-weight: bold; color:#0dcaf0">+</span>Barão</span>
+              <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <li class="nav-item">
+                  <a href="../home/home.html" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Início</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="../agendamento/index.html" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Agendamentos</span></a>
+                </li>
+                <li>
+                  <button type="button" class="px-0 align-middle btn" style="width: 100%; color: red;">
+                    <i class="fs-4 bi-box-arrow-left"></i> <span class="ms-1 d-none d-sm-inline btn-outline-danger"
+                      id="btnLogout">Sair</span></button>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>        
+          <div class="col py-3">
 
-        <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-              <div class="modal-content">
-                  <div class="modal-header" style="border-bottom: 0px;">
-                      <button type="button" id="btnFecharModalArquivo" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body d-flex justify-content-center agendamento-novo" style="padding: 0;">
-                      <div class="row" style="width: 100%;">
-                          <form id="form-agendamento" class="" action="#" style="width: 100%">
-                              <input type="hidden" id="id" name="id"/>
-                              <input type="hidden" id="chave" name="chave" />
-                              <input type="hidden" id="vinculoId" name="vinculoId" />
-                              <div class="col-12" style="padding-inline: 1rem;">
-                                  <div style="background-color: transparent;">
-                                      <div id="medicoField" class="row mb-2">
-                                          <div class="col-md-12 col-xs-12">
-                                              <label class="paragraph-xsmall">Médico</label>
-                                              <select class="form-select" id="medicoId" name="medicoId">
-                                                  <option value="">Selecione o médico</option>
-                                              </select>
-                                              <span id="MedicoError"></span>
-                                          </div>
-                                      </div>
-                                      <div class="row mb-2">
-                                        <div class="col-md-12 col-xs-12">
-                                            <label class="paragraph-xsmall">Especialidade</label>
-                                            <select class="form-select" id="especialidade" name="especialidade">
-                                                <option value="">Selecione a especialidade</option>
-                                                <option value="1">Clínico geral</option>
-                                                <option value="2">Cardiologia</option>
-                                                <option value="3">Dermatologia</option>
-                                                <option value="4">Ginecologia</option>                                                  
-                                                <option value="5">Ortopedia</option>
-                                                <option value="6">Pediatria</option>
-                                                <option value="7">Oftalmologia</option>
-                                                <option value="8">Psiquiatria</option>
-                                                <option value="9">Endocrinologia</option>
-                                                <option value="10">Neurologia</option>
-                                                <option value="11">Radiologia</option>
-                                                <option value="12">Fisioterapia</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                      <div class="row mb-2">
-                                          <div class="col-md-12 col-xs-12">
-                                              <label class="paragraph-xsmall">Status do agendamento</label>
-                                              <select class="form-select" id="statusAgendamento" name="statusAgendamento">
-                                                  <option value="1">Em aberto</option>
-                                                  <option value="2">Aguardando</option>
-                                                  <option value="3">Confirmado</option>
-                                                  <option value="4">Realizado</option>                                                  
-                                                  <option value="5">Cancelado</option>
-                                              </select>
-                                          </div>
-                                      </div>
-                                      <div class="row mb-2">
-                                          <div class="col-md-12 col-xs-12">
-                                              <label class="paragraph-xsmall">Data de início</label>
-                                              <input type="date" id="dataInicio" name="dataInicio"class="form-control">
-                                          </div>
-                                      </div>                
-                                      <div class="row mb-2">
-                                          <div class="col-md-6 col-xs-12">
-                                              <label class="paragraph-xsmall">Horário inicial</label>
-                                              <input type="time" id="horaInicio" name="horaInicio" class="form-control">
-                                          </div>
-                                          <div class="col-md-6 col-xs-12">
-                                              <label class="paragraph-xsmall">Horário final</label>
-                                              <input type="time" id="horaFinal" name="horaFinal" class="form-control">
-                                          </div>
-                                      </div>
-                                      <div class="row mb-2 frequency-row">
-                                          <div class="col-md-6 col-xs-12">
-                                              <label class="paragraph-xsmall">Frequência</label>
-                                              <select class="form-select" id="frequencia" name="frequencia">
-                                                  <option value="">Selecione a frequência</option>
-                                                  <option value="1">Não se repete</option>
-                                                  <option value="2">Todos os dias</option>
-                                                  <option value="3">Semanal</option>
-                                                  <option value="4">Mensal</option>
-                                                  <option value="5">Anual</option>
-                                              </select>
-                                          </div>
-                                          <div class="col-md-6 col-xs-12">
-                                              <label class="paragraph-xsmall">Data final</label>
-                                              <input type="date" id="dataFinal" name="dataFinal" class="form-control">
-                                          </div>
-                                      </div>                                
-                                  </div>
-                              </div>
-                          </form>
+            <div class="main-container">
+              <main class="h-100">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <div class="card" style="overflow: auto;">
+                      <div class="card-body">
+                        <button class="btn btn-default mb-4 align-items-center justify-content-center"
+                          style="display: none;" id="btnNovoAgendamento">
+                          Realizar agendamento
+                        </button>
+                        <div id="filtro-tipo-agenda" class="mb-4">
+                          <div class="d-flex justify-content-between">
+                            <h1 style="font-size: 16px;font-weight: 700;line-height: 24px;">Agendamentos</h1>
+                            <a class="chevron d-flex"><i class="bx bx-chevron-up fa-2x"></i></a>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input tipo-agenda" id="all" checked type="checkbox">Todos
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input tipo-agenda" type="checkbox"><span class="userName"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div style="width: fit-content;">
+                          <div class="d-flex justify-content-between">
+                            <h1 style="font-size: 16px;font-weight: 700;line-height: 24px;">Especialidade</h1>
+                            <a class="chevron d-flex"><i class="bx bx-chevron-up fa-2x"></i></a>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="1" type="checkbox">Clínico geral
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="2" type="checkbox">Cardiologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="3" type="checkbox">Dermatologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="4" type="checkbox">Ginecologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="5" type="checkbox">Ortopedia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="6" type="checkbox">Pediatria
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="7" type="checkbox">Oftalmologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="8" type="checkbox">Psiquiatria
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="9" type="checkbox">Endocrinologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="10" type="checkbox">Neurologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="12" type="checkbox">Radiologia
+                            </div>
+                            <div class="d-flex align-items-center mb-2 form-check-primary">
+                              <input class="form-check-input especialidade" id="12" type="checkbox">Fisioterapia
+                            </div>
+                          </div>
+                        </div>
                       </div>
+                    </div>
                   </div>
-                  <div class="modal-footer" style="text-align: center; border-top: 0px; padding-inline: 24px;">
-                      <button type="button" disabled class="mt-4 btn btn-default" id="btnSalvarAgendamento" style="width: 100%; margin-bottom: 12px;">Salvar</button>
-                      <button type="button" class="btn btn-danger" id="btnRemoverAgendamento" style="width: 100%; margin-bottom: 12px;">Remover</button>
+                  <div class="col-lg-10">
+                    <div class="card">
+                      <div class="card-body">
+                        <div id="calendar"></div>
+                      </div>
+                    </div>
                   </div>
-              </div>
-          </div>
-      </div>
-        <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-center" style="border-bottom: 0px;">
-                        <p style="font-weight: 900; color: #333333; font-size: 18px">Excluir</p>
-                    </div>
-                    <div class="modal-body d-flex justify-content-center" style="padding: 0px 24px 0px 24px; text-align: center">
-                        <p class="modal-delete-message" style="color: #888888; font-size: 16px; width: 100%">Deseja realmente excluir este agendamento?</p>
-                    </div>
-                    <div class="modal-footer" style="border-top: 0px; padding: 0px 24px 24px 24px;">
-                        <button type="button" class="btn btn-default" id="btnConfirmDelete" style="width: 100%;">Ok</button>
-                        <button type="button" data-bs-target="#modalAgendamento" data-bs-toggle="modal" class="btn btn-danger" id="btnConfirmDelete" style="width: 100%; margin-bottom: 24px;">Cancelar</button>
-                    </div>
                 </div>
+
+                <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static"
+                  data-bs-keyboard="false">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header" style="border-bottom: 0px;">
+                        <button type="button" id="btnFecharModalArquivo" data-bs-dismiss="modal" class="btn-close"
+                          aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body d-flex justify-content-center agendamento-novo" style="padding: 0;">
+                        <div class="row" style="width: 100%;">
+                          <form id="form-agendamento" class="" action="#" style="width: 100%">
+                            <input type="hidden" id="id" name="id" />
+                            <input type="hidden" id="chave" name="chave" />
+                            <input type="hidden" id="vinculoId" name="vinculoId" />
+                            <div class="col-12" style="padding-inline: 1rem;">
+                              <div style="background-color: transparent;">
+                                <div id="medicoField" class="row mb-2">
+                                  <div class="col-md-12 col-xs-12">
+                                    <label class="paragraph-xsmall">Médico</label>
+                                    <select class="form-select" id="medicoId" name="medicoId">
+                                      <option value="">Selecione o médico</option>
+                                    </select>
+                                    <span id="MedicoError"></span>
+                                  </div>
+                                </div>
+                                <div class="row mb-2">
+                                  <div class="col-md-12 col-xs-12">
+                                    <label class="paragraph-xsmall">Especialidade</label>
+                                    <select class="form-select" id="especialidade" name="especialidade">
+                                      <option value="">Selecione a especialidade</option>
+                                      <option value="1">Clínico geral</option>
+                                      <option value="2">Cardiologia</option>
+                                      <option value="3">Dermatologia</option>
+                                      <option value="4">Ginecologia</option>
+                                      <option value="5">Ortopedia</option>
+                                      <option value="6">Pediatria</option>
+                                      <option value="7">Oftalmologia</option>
+                                      <option value="8">Psiquiatria</option>
+                                      <option value="9">Endocrinologia</option>
+                                      <option value="10">Neurologia</option>
+                                      <option value="11">Radiologia</option>
+                                      <option value="12">Fisioterapia</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="row mb-2">
+                                  <div class="col-md-12 col-xs-12">
+                                    <label class="paragraph-xsmall">Status do agendamento</label>
+                                    <select class="form-select" id="statusAgendamento" name="statusAgendamento">
+                                      <option value="1">Em aberto</option>
+                                      <option value="2">Aguardando</option>
+                                      <option value="3">Confirmado</option>
+                                      <option value="4">Realizado</option>
+                                      <option value="5">Cancelado</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="row mb-2">
+                                  <div class="col-md-12 col-xs-12">
+                                    <label class="paragraph-xsmall">Data de início</label>
+                                    <input type="date" id="dataInicio" name="dataInicio" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="row mb-2">
+                                  <div class="col-md-6 col-xs-12">
+                                    <label class="paragraph-xsmall">Horário inicial</label>
+                                    <input type="time" id="horaInicio" name="horaInicio" class="form-control">
+                                  </div>
+                                  <div class="col-md-6 col-xs-12">
+                                    <label class="paragraph-xsmall">Horário final</label>
+                                    <input type="time" id="horaFinal" name="horaFinal" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="row mb-2 frequency-row">
+                                  <div class="col-md-6 col-xs-12">
+                                    <label class="paragraph-xsmall">Frequência</label>
+                                    <select class="form-select" id="frequencia" name="frequencia">
+                                      <option value="">Selecione a frequência</option>
+                                      <option value="1">Não se repete</option>
+                                      <option value="2">Todos os dias</option>
+                                      <option value="3">Semanal</option>
+                                      <option value="4">Mensal</option>
+                                      <option value="5">Anual</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-6 col-xs-12">
+                                    <label class="paragraph-xsmall">Data final</label>
+                                    <input type="date" id="dataFinal" name="dataFinal" class="form-control">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="modal-footer" style="text-align: center; border-top: 0px; padding-inline: 24px;">
+                        <button type="button" disabled class="mt-4 btn btn-default" id="btnSalvarAgendamento"
+                          style="width: 100%; margin-bottom: 12px;">Salvar</button>
+                        <button type="button" class="btn btn-danger" id="btnRemoverAgendamento"
+                          style="width: 100%; margin-bottom: 12px;">Remover</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header d-flex justify-content-center" style="border-bottom: 0px;">
+                        <p style="font-weight: 900; color: #333333; font-size: 18px">Excluir</p>
+                      </div>
+                      <div class="modal-body d-flex justify-content-center"
+                        style="padding: 0px 24px 0px 24px; text-align: center">
+                        <p class="modal-delete-message" style="color: #888888; font-size: 16px; width: 100%">Deseja
+                          realmente excluir este agendamento?</p>
+                      </div>
+                      <div class="modal-footer" style="border-top: 0px; padding: 0px 24px 24px 24px;">
+                        <button type="button" class="btn btn-default" id="btnConfirmDelete"
+                          style="width: 100%;">Ok</button>
+                        <button type="button" data-bs-target="#modalAgendamento" data-bs-toggle="modal"
+                          class="btn btn-danger" id="btnConfirmDelete"
+                          style="width: 100%; margin-bottom: 24px;">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+              <footer>
+                <div class="container-fluid">
+                  <div class="row">
+                    <script>document.write(new Date().getFullYear())</script> © Saúde+Barão
+                  </div>
+                </div>
+              </footer>
             </div>
+          </div>
         </div>
-      </main>
-      <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <script>document.write(new Date().getFullYear())</script> © Saúde+Barão
-            </div>
-        </div>
-      </footer>      
-    </div>
-    
-  </div>
-  
-  <script src="../../js/jquery.min.js"></script>
-  <script src="../../js/jquery.validate.min.js"></script>
-  <script src="../../js/bootstrap.min.js"></script>
-  <script src="../../js/common.js"></script>
-  <script src="../../assets/fullcalendar/main.js"></script>
-  <script src="../../assets/fullcalendar/locales/pt-br.js"></script>
-  
-  <script src="../../js/agendamento/index.js"></script>
-  <script src="../../js/agendamento/form.js"></script>
+      </div>
+
+      <script src="../../js/jquery.min.js"></script>
+      <script src="../../js/jquery.validate.min.js"></script>
+      <script src="../../js/bootstrap.min.js"></script>
+      <script src="../../js/common.js"></script>
+      <script src="../../assets/fullcalendar/main.js"></script>
+      <script src="../../assets/fullcalendar/locales/pt-br.js"></script>
+
+      <script src="../../js/agendamento/index.js"></script>
+      <script src="../../js/agendamento/form.js"></script>
 </body>
+
 </html>
