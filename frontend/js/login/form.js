@@ -32,34 +32,10 @@ function btnEntrar_click(e) {
     var form = $("#form-login");
     if (form.valid()) {        
         let data = form.serializeObject();
-        $.ajax({
-            url: 'http://localhost:5001/Autenticacao/Login',
-            data: JSON.stringify(data),
-            xhrFields: {
-                withCredentials: true
-            },
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (resposta) {
-                if (resposta != null) {
-                    if (resposta.statusCode == 400) {
-                        var erro = resposta.value[0].errorMessage || resposta.value;
-                        toastError(erro);
-                    } else if (resposta.statusCode == 200) {
-                        toastSuccess("Usuário autenticado com sucesso!")
-                        
-                        setTimeout(function () {
-                            window.location.href = "home/home.html";
-                        }, 1000);
-                    }
-                }
-            },
-            error: function (resposta) {
-                toastError("Falha ao tentar autenticar este usuário!")
-            }
-        });
+        
+        const Facade = BackendFacade.getInstance();
+
+        Facade.login(data);
     }
 }
 
