@@ -15,10 +15,10 @@ Vitor Kenji
 - Representational State Transfer (REST)
 
 ## Descrição sucinta dos principais componentes
-- Autenticação Controller: Autoriza o registro de usuários e entrada na aplicação
-- Paciente Controller: Facilita a obtenção de informações sobre pacientes e a inclusão de novos indivíduos
-- Funcionário Controller: Proporciona a visualização e modificação dos dados de colaboradores, além da inserção de novos membros
+- Autenticação Controller: Autoriza o registro de usuários e entrada na aplicação.
+- Paciente Controller: Facilita a obtenção de informações sobre pacientes e a inclusão de novos indivíduos.
+- Funcionário Controller: Proporciona a visualização e modificação dos dados de colaboradores, além da inserção de novos membros.
 - Agendamento Controller: Viabiliza a consulta e modificação dos registros de agendamentos através de consultas ao banco de dados, filtrando de acordo com as necessidades.
 - Services: Captura as solicitações provenientes dos controladores e estabelece a comunicação com o banco de dados.
 - Serviço de E-mail: Envia mensagens de e-mail aos usuários.
-- Serviço de notificação: Informa o usuário sobre um evento acionado pela aplicação.
+- Serviço de Notificação: Informa o usuário sobre um evento acionado pela aplicação.
