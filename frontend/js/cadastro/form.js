@@ -106,7 +106,7 @@ jQuery.validator.addMethod("cpf", function(value, element) {
 
 })(window, document, window.jQuery);
 
-function btnCadastrar_click(e) {
+async function btnCadastrar_click(e) {
     e.preventDefault();
     const form = $("#form-cadastro");
     if (form.valid()) {        
@@ -118,45 +118,10 @@ function btnCadastrar_click(e) {
 
         data["cpf"] = data["cpf"].replace(/[^\d]+/g, '');
 
-        let url = `https://localhost:5000/${data["tipoUsuario"]}/Cadastro`;
+        const Facade = BackendFacade.getInstance();
 
-        $.ajax({
-            url: url,
-            data: JSON.stringify(data),
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (res) {
-                if (res != null) {
-                    if (res.statusCode == 200) {
-                        $("#toast-cadastro").removeClass('bg-danger');
-                        $("#toast-cadastro").addClass('bg-success');
-                        $("#toast-cadastro .toast-body").text("Usuário cadastrado com sucesso!");
-                        $("#toast-cadastro").toast('show');
-                        
-                        setTimeout(function () {
-                            location.href = "../index.html";
-                        }, 2000);
-                    }
-                    else{
-                        $("#toast-cadastro").removeClass('bg-success');
-                        $("#toast-cadastro").addClass('bg-danger');
-                        $("#toast-cadastro .toast-body").text("Falha ao tentar cadastrar o usuário!");
-                        $("#toast-cadastro").toast('show');
+        await Facade.cadastrar(data);
 
-                        form.trigger("reset");
-                    }
-                }
-            },
-            error: function (res) {
-                console.error(res);
-
-                $("#toast-cadastro").addClass('bg-danger');
-                $("#toast-cadastro .toast-body").text("Falha ao tentar cadastrar o usuário!");
-                $("#toast-cadastro").toast('show');
-
-                form.trigger("reset");
-            }
-        });
+        form.trigger('reset');
     }
 }
