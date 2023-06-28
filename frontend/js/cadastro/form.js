@@ -106,7 +106,7 @@ jQuery.validator.addMethod("cpf", function(value, element) {
 
 })(window, document, window.jQuery);
 
-function btnCadastrar_click(e) {
+async function btnCadastrar_click(e) {
     e.preventDefault();
     const form = $("#form-cadastro");
     if (form.valid()) {        
@@ -120,7 +120,7 @@ function btnCadastrar_click(e) {
 
         const Facade = BackendFacade.getInstance();
 
-        Facade.cadastrar(data);
+        await Facade.cadastrar(data);
 
         form.trigger('reset');
     }

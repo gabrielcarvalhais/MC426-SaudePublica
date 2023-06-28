@@ -41,8 +41,8 @@ class BackendFacade {
         });
     }
   
-    cadastrar(data) {
-        $.ajax({
+    async cadastrar(data) {
+        await $.ajax({
             url: this.backendUrl + '/' + data["tipoUsuario"] + '/Cadastro',
             data: JSON.stringify(data),
             type: 'POST',
