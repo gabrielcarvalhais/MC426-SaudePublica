@@ -31,27 +31,8 @@ async function verificaUsuarioLogado() {
 }
 
 function logout(){
-    $.ajax({
-            url: 'http://localhost:5001/Autenticacao/Logout',
-            type: 'GET',
-            xhrFields: {
-                withCredentials: true
-            },
-            crossDomain: true,
-            success: function (resposta) {
-                if (resposta != null) {
-                    if (resposta.statusCode == 400) {
-                        var erro = resposta.value[0].errorMessage || resposta.value;
-                        toastError(erro);
-                    } else if (resposta.statusCode == 200) {                        
-                        window.location.href = "../index.html";
-                    }
-                }
-            },
-            error: function (resposta) {
-                toastError("Falha ao tentar realizar esta ação!")
-            }
-        });
+    const Facade = BackendFacade.getInstance();
+    Facade.logout();
 }
 
 function toastSuccess(text){
