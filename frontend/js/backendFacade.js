@@ -2,10 +2,20 @@ class BackendFacade {
     backendUrl = 'http://localhost:5001';
 
     static instance;
+    static #initializing = false; // variavel privada que só permite que o construtor seja chamado de dentro da classe
+
+    constructor() {
+        if (!BackendFacade.#initializing) {
+            throw new Error("Construtor privado, a classe é um singleton. Utilize o método 'getInstance'.")
+        }
+
+        BackendFacade.#initializing = false;
+    }
 
     static getInstance() {
         if (!BackendFacade.instance) {
-          BackendFacade.instance = new BackendFacade();
+            BackendFacade.#initializing = true; // permite o construtor de ser chamado sem erro
+            BackendFacade.instance = new BackendFacade();
         }
         return BackendFacade.instance;
     }
