@@ -27,7 +27,7 @@
   <div class="out-container h-100">
     <div class="container-fluid">
       <div class="row flex-nowrap">
-        <div id="menu-container"></div>
+        <div class="col-auto" id="menu-container"></div>
         <div class="col pt-3" style="padding-inline: 0;">
           <div class="main-container h-100">
             <main class="h-100">
@@ -90,7 +90,11 @@
   </script>
   <script src="../../js/backendFacade.js"></script>
   <script src="../../js/home/index.js"></script>
-
+  <script src="../../js/menu.js"></script>
+  <script>
+    const menu = new Menu("menu-container");
+    menu.render();
+  </script>
 </body>
 
 </html>
