@@ -38,7 +38,7 @@ class BackendFacade {
                         toastError(erro);
                     } else if (resposta.statusCode == 200) {
                         toastSuccess("Usuário autenticado com sucesso!")
-                        
+
                         setTimeout(function () {
                             window.location.href = "home/home.html";
                         }, 1000);
@@ -50,7 +50,7 @@ class BackendFacade {
             }
         });
     }
-  
+
     async cadastrar(data) {
         await $.ajax({
             url: this.backendUrl + '/' + data["tipoUsuario"] + '/Cadastro',
@@ -62,12 +62,12 @@ class BackendFacade {
                 if (res != null) {
                     if (res.statusCode == 200) {
                         toastSuccess('Usuário cadastrado com sucesso!');
-                        
+
                         setTimeout(function () {
                             location.href = "../index.html";
                         }, 2000);
                     }
-                    else{
+                    else {
                         toastError('Falha ao tentar cadastrar o usuário!');
                     }
                 }
@@ -78,5 +78,27 @@ class BackendFacade {
                 toastError('Falha ao tentar cadastrar o usuário!');
             }
         });
+    }
+
+    async getAgendamentoById(id, callBackSuccess, callBackSucces) {
+        try {
+            $.ajax({
+                url: `https://localhost:5000/Agendamento/GetById/${id}`,
+                type: 'GET',
+                success: function (resposta) {
+                    if (resposta.statusCode == 400) {
+                        let erro = resposta.value[0].errorMessage || resposta.value;
+                        toastError(erro);
+                    } else if (resposta.statusCode == 200) {
+                        callBackSuccess(resposta);
+                    }
+                },
+                error: function (resposta) {
+                    toastError("Falha ao resgatar os dados do agendamento!");
+                }
+            });
+        } catch (err) {
+            toastError(err);
+        }
     }
 }
