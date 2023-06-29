@@ -24,7 +24,7 @@ namespace MC426_Backend.Controllers
             _funcionarioService = funcionarioService;
             _mapper = mapper;
             _emailService = emailService;
-        }
+        }        
 
         [Route("[controller]/GetAgendamentos")]
         [HttpPost]
@@ -116,7 +116,91 @@ namespace MC426_Backend.Controllers
                         var pacienteEmail = paciente.Email;
                         var medicoEmail = medico.Email;
 
-                        string inicioEmail = $@"
+                        string inicioEmail = GetInicioEmail();
+                        string fimEmail = GetFinalEmail(agendamento);
+
+                        string emailPaciente = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o Dr. {medico.Nome}</h3>" + fimEmail;
+                        string emailMedico = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o paciente {paciente.Nome}</h3>" + fimEmail;
+
+                        _emailService.SendEmail(pacienteEmail, "Saúde+Barão: Consulta médica atualizada", emailPaciente);
+                        _emailService.SendEmail(medicoEmail, "Saúde+Barão: Consulta médica atualizada", emailMedico);
+                    }
+                    
+
+                    return new JsonResult(Ok());
+                }
+                //insert
+                else
+                {
+                    var agendamento = _mapper.Map<AgendamentoModel, Agendamento>(model);
+                    agendamento.Chave = Guid.NewGuid();
+
+                    var data = agendamento.DataInicio;
+                    var dataFinal = agendamento.DataFinal;
+
+                    if (model.Frequencia != EFrequencia.NaoSeRepete)
+                    {
+                        agendamento.Vinculos = new List<Agendamento>();
+
+                        while (data <= dataFinal)
+                        {
+                            switch (model.Frequencia)
+                            {
+                                case EFrequencia.Semanal:
+                                    data = data.Value.AddDays(7);
+                                    break;
+                                case EFrequencia.TodosOsDias:
+                                    data = data.Value.AddDays(1);
+                                    break;
+                                case EFrequencia.Mensal:
+                                    data = data.Value.AddMonths(1);
+                                    break;
+                                case EFrequencia.Anual:
+                                    data = data.Value.AddYears(1);
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (data <= dataFinal)
+                            {
+                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
+                                agendamentoVinculo.DataInicio = data;
+                                agendamentoVinculo.Chave = Guid.NewGuid();
+                                agendamento.Vinculos.Add(agendamentoVinculo);
+                            }
+                        }
+                    }
+
+                    _agendamentoService.Insert(agendamento);
+                    return new JsonResult(Ok());
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
+        [Route("[controller]/Excluir/{id}")]
+        [HttpDelete]
+        public JsonResult ExcluirAgendamento(int id)
+        {
+            try
+            {
+                var agendamentoDb = _agendamentoService.GetById(Convert.ToInt32(id));
+                _agendamentoService.Delete(agendamentoDb);
+                return new JsonResult(Ok());                
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(BadRequest(ex.Message));
+            }
+        }
+
+        private string GetInicioEmail()
+        {
+            return $@"
                         <head>
                             <style>
                                 body {{
@@ -184,127 +268,26 @@ namespace MC426_Backend.Controllers
                                 </div>
                                 
                                 <div class=""appointment"">";
-
-                            string fimEmail = $@"
-                                    <p class=""appointment-details"">
-                                        Especialidade: {agendamento.Especialidade.ToString()}<br>
-                                        Data: {agendamento.DataInicio?.ToString("dd/MM/yyyy") ?? "N/A"}<br>
-                                        Hora: {agendamento.HoraInicio?.ToString(@"hh\:mm") ?? "N/A"} até {agendamento.HoraFinal?.ToString(@"hh\:mm") ?? "N/A"}<br>
-                                    </p>
-                                    </div>
-                                
-                                    <div class=""footer"">
-                                    <p>Se você tiver alguma dúvida ou precisar de mais informações, entre em contato conosco.</p>
-                                    <p>Atenciosamente,</p>
-                                    <p>A equipe de agendamentos</p>
-                                    </div>
-                                </div>
-                            </body>
-                        ";
-
-                        string emailPaciente = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o Dr. {medico.Nome}</h3>" + fimEmail;
-                        string emailMedico = inicioEmail + $@"<h3 class=""appointment-title"">Consulta com o paciente {paciente.Nome}</h3>" + fimEmail;
-
-                        _emailService.SendEmail(pacienteEmail, "Saúde+Barão: Consulta médica atualizada", emailPaciente);
-                        _emailService.SendEmail(medicoEmail, "Saúde+Barão: Consulta médica atualizada", emailMedico);
-                    }
-                    
-
-                    return new JsonResult(Ok());
-                }
-                //insert
-                else
-                {
-                    var agendamento = _mapper.Map<AgendamentoModel, Agendamento>(model);
-                    agendamento.Chave = Guid.NewGuid();
-
-                    var data = agendamento.DataInicio;
-                    var dataFinal = agendamento.DataFinal;
-
-                    if (model.Frequencia != EFrequencia.NaoSeRepete)
-                        agendamento.Vinculos = new List<Agendamento>();
-
-                    if (model.Frequencia == EFrequencia.Semanal)
-                    {
-                        while (data <= dataFinal)
-                        {
-                            data = data.Value.AddDays(7);
-                            if (data <= dataFinal)
-                            {
-                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
-                                agendamentoVinculo.DataInicio = data;
-                                agendamentoVinculo.Chave = Guid.NewGuid();
-                                agendamento.Vinculos.Add(agendamentoVinculo);
-                            }
-                        }
-                    }
-                    else if (model.Frequencia == EFrequencia.Mensal)
-                    {
-                        while (data <= dataFinal)
-                        {
-                            data = data.Value.AddMonths(1);
-                            if (data <= dataFinal)
-                            {
-                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
-                                agendamentoVinculo.DataInicio = data;
-                                agendamentoVinculo.Chave = Guid.NewGuid();
-                                agendamento.Vinculos.Add(agendamentoVinculo);
-                            }
-                        }
-                    }
-                    else if (model.Frequencia == EFrequencia.Anual)
-                    {
-                        while (data <= dataFinal)
-                        {
-                            data = data.Value.AddYears(1);
-                            if (data <= dataFinal)
-                            {
-                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
-                                agendamentoVinculo.DataInicio = data;
-                                agendamentoVinculo.Chave = Guid.NewGuid();
-                                agendamento.Vinculos.Add(agendamentoVinculo);
-                            }
-                        }
-                    }
-                    else if (model.Frequencia == EFrequencia.TodosOsDias)
-                    {
-                        while (data <= dataFinal)
-                        {
-                            data = data.Value.AddDays(1);
-                            if (data <= dataFinal)
-                            {
-                                var agendamentoVinculo = _mapper.Map<AgendamentoModel, Agendamento>(model);
-                                agendamentoVinculo.DataInicio = data;
-                                agendamentoVinculo.Chave = Guid.NewGuid();
-                                agendamento.Vinculos.Add(agendamentoVinculo);
-                            }
-                        }
-                    }
-
-                    _agendamentoService.Insert(agendamento);
-                    return new JsonResult(Ok());
-                }
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(BadRequest(ex.Message));
-            }
         }
 
-        [Route("[controller]/Excluir/{id}")]
-        [HttpDelete]
-        public JsonResult ExcluirAgendamento(int id)
+        private string GetFinalEmail(Agendamento agendamento)
         {
-            try
-            {
-                var agendamentoDb = _agendamentoService.GetById(Convert.ToInt32(id));
-                _agendamentoService.Delete(agendamentoDb);
-                return new JsonResult(Ok());                
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(BadRequest(ex.Message));
-            }
+            return $@"
+                    <p class=""appointment-details"">
+                        Especialidade: {agendamento.Especialidade.ToString()}<br>
+                        Data: {agendamento.DataInicio?.ToString("dd/MM/yyyy") ?? "N/A"}<br>
+                        Hora: {agendamento.HoraInicio?.ToString(@"hh\:mm") ?? "N/A"} até {agendamento.HoraFinal?.ToString(@"hh\:mm") ?? "N/A"}<br>
+                    </p>
+                    </div>
+                                
+                        <div class=""footer"">
+                        <p>Se você tiver alguma dúvida ou precisar de mais informações, entre em contato conosco.</p>
+                        <p>Atenciosamente,</p>
+                        <p>A equipe de agendamentos</p>
+                        </div>
+                    </div>
+                </body>
+            ";
         }
 
     }
