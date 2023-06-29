@@ -80,7 +80,7 @@ class BackendFacade {
         });
     }
 
-    async getAgendamentoById(id, callBackSuccess, callBackSucces) {
+    async getAgendamentoById(id, callBackSuccess, callBackError) {
         try {
             $.ajax({
                 url: `https://localhost:5000/Agendamento/GetById/${id}`,
@@ -95,6 +95,28 @@ class BackendFacade {
                 },
                 error: function (resposta) {
                     toastError("Falha ao resgatar os dados do agendamento!");
+                }
+            });
+        } catch (err) {
+            toastError(err);
+        }
+    }
+
+    async getFuncionarios(callBackSuccess, callBackError) {
+        try {
+            await $.ajax({
+                url: 'https://localhost:5000/Funcionario/GetAll',
+                type: 'GET',
+                success: function (resposta) {
+                    if (resposta.statusCode == 400) {
+                        let erro = resposta.value[0].errorMessage || resposta.value;
+                        toastError(erro);
+                    } else if (resposta.statusCode == 200) {
+                        callBackSuccess(resposta);
+                    }
+                },
+                error: function (resposta) {
+                    toastError("Falha ao buscar os médicos cadastrados!");
                 }
             });
         } catch (err) {

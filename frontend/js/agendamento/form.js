@@ -95,31 +95,18 @@ async function getFuncionarios() {
         value: "",
         text: "Selecione o médico",
     }));
-    try {
-        await $.ajax({
-            url: 'https://localhost:5000/Funcionario/GetAll',
-            type: 'GET',
-            success: function (resposta) {
-                if (resposta.statusCode == 400) {
-                    let erro = resposta.value[0].errorMessage || resposta.value;
-                    toastError(erro);
-                } else if (resposta.statusCode == 200) {
-                    let medicos = resposta.value;
-                    for (let i = 0; i < medicos.length; i++) {
-                        $('#medicoId').append($('<option>', {
-                            value: medicos[i].id,
-                            text: medicos[i].nome
-                        }));
-                    }
-                }
-            },
-            error: function (resposta) {
-                toastError("Falha ao buscar os médicos cadastrados!");
-            }
-        });
-    } catch (err) {
-        toastError(err);
-    }
+
+    const Facade = BackendFacade.getInstance();
+
+    Facade.getFuncionarios(function (resposta) {
+        let medicos = resposta.value;
+        for (let i = 0; i < medicos.length; i++) {
+            $('#medicoId').append($('<option>', {
+                value: medicos[i].id,
+                text: medicos[i].nome
+            }));
+        }
+    });
 }
 
 function btnSalvar_Click() {
