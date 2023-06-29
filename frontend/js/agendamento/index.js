@@ -32,34 +32,6 @@ function showModalAgendamento(id){
     $("#modalAgendamento").modal("show");
 }
 
-function addDays(date, days) {
-    const newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + days);
-
-    return newDate;
-}
-
-function addWeeks(date, weeks) {
-    const newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + 7 * weeks);
-
-    return newDate;
-}
-
-function addMonths(date, months) {
-    const newDate = new Date(date);
-    newDate.setMonth(newDate.getMonth() + months);
-
-    return newDate;
-}
-
-function addYears(date, years) {
-    const newDate = new Date(date);
-    newDate.setFullYear(newDate.getFullYear() + years);
-
-    return newDate;
-}
-
 async function getEvents() {
     var especialidades = []
     for (var i = 0; i < $(".especialidade").length; i++) {
@@ -96,31 +68,6 @@ async function getEvents() {
                         color: item.color,
                         display: "block",
                     });
-
-                    // if (item.frequencia != 1) {
-                    //     let endDate = new Date(item.dataFinal);
-                    //     endDate.setHours(23, 59, 59);
-                        
-                    //     let currentEventTimeStart = new Date(item.dataHoraInicio);
-                    //     let currentEventTimeEnd = new Date(item.dataHoraFim)
-                    //     let addFunction = item.frequencia == 2 ? addDays : item.frequencia == 3 ? addWeeks : item.frequencia == 4 ? addMonths : addYears;
-
-                    //     currentEventTimeStart = addFunction(currentEventTimeStart, 1);
-                    //     currentEventTimeEnd = addFunction(currentEventTimeEnd, 1);
-                    //     while(currentEventTimeStart.getTime() <= endDate.getTime()) {
-                    //         eventos.push({
-                    //             id: item.id,
-                    //             title: item.nomeEspecialidade,
-                    //             start: currentEventTimeStart.toISOString(),
-                    //             end: currentEventTimeEnd.toISOString(),
-                    //             color: "#0dcaf0",
-                    //             display: "block",
-                    //         });
-
-                    //         currentEventTimeStart = addFunction(currentEventTimeStart, 1);
-                    //         currentEventTimeEnd = addFunction(currentEventTimeEnd, 1);
-                    //     }
-                    // }
                 });
             }            
             setCalendarConfiguration();
